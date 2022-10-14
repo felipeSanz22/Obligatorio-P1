@@ -1,0 +1,45 @@
+Primero que nada manito:
+
+1 Voce descarga o link que eu copio a continoaçao:
+https://git-scm.com/downloads
+
+2. Ao tempo que voce descarga o programa, instala, como voce quiera. 
+Reinicia sua pc
+
+3.Na consola do visual studio code (Arriba izquierda -> Terminal -> Nueva terminal)
+En esta consola, voce pega no comandos:
+git config --global user.name "Sua nombre"
+git config --global user.email "Sua mail"
+Pra confirmar si voce coloçao suos datos corretamente escribe "git config --list"(por ahi va a aparecer user.name con tu nombre y user.email con tu mail)
+
+logo do facer todo esto:
+4. voce se tiene que colocar en la carpeta donde quiera poner sua trabalho.
+(Feli le explica como moverse en consola si voce no sabe(cl .. o cl "carpeta"))
+
+5. una vez en la carpeta, voce escribe en sua consola "git clone <url>" en este caso "git clone https://github.com/felipeSanz22/Obligatorio-P1"
+esto descargara todo el repositorio de github para sua pc
+
+listo
+
+Segundo que nada manito:
+
+Para subir archivos a github:
+
+1. Git add: una vez realizado todos los cambios a archivos y codigo:
+voce escribe na sua consola: "git status" y le va a decir que voce es muito malo na csgo, pero voce ignora la advertencia y escribe
+"git add <archivo>" En caso de querer agregar todos los cambios se pone un "." en archvio, es decir "git add ."
+por asi decirlo, esto pre guarda los archivos.
+podemos confirmar que se haya agregado todo con git status, deberia aparecer todo en verde y que esta pendiente a commit
+
+2. Git commit: para guardar y sellar los cambios ponemos en consola "git commit <branch> <nombre del commit>" entonces: "git commit -m "Soy malo na CS""
+
+3. Git push: El git push sube los cambios a github. y ya queda para la proxima!
+
+La prox que quieras trabajar sobre los archivos SIEMPRE, para evitar errores, deberas poner el comando "git pull"
+SIEMPRE
+SIEMPRE
+SIEMPRE
+SIEMPRE
+
+La consecuencia de no hacerlo, es vas a avanzar y despues no vas a poder publicar los cambios porq no tenes la ultima version, hay soluciones a esto, como las branches, pero eso lo dejo de deberes por si quieren investigar
+lo mas facil es poner git pull cada vez que entras
