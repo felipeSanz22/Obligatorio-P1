@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="Pantalla de inicio">
+        <input type="button" id="btnIngresarComoEmpresa" value="Empresa">
+        <input type="button" id="btnIngresarComoImportador" value="Importador">
+    </div>
+
+    <div id="RegistrarImportador">
+        <Label id="txtNombreImportador">Nombre: </Label> <input type="text" id="txtNombreImportador"><br><br>
+        <Label id="txtIDImportador">ID: </Label> <input type="text" id="txtIDImportador"><br><br>
+        <Label id="txtContraseñaImportador">Contraseña: </Label> <input type="text" id="txtCargaContenedores"><br><br>
+        <Label id="txtconfirmarContraseña">Confirmar Contraseña: </Label> <input type="text" id="txtCargaIDEmpresa"><br><br>
+        <Label id="imgImportador">Foto: </label>
+
+    </div>
+
+    <div id="CrearSolicitudCarga">
+        <Label id="txtCargaMercaderia">Tipo de Mercaderia: </Label> <input type="text" id="txtCargaMercaderia"><br><br>
+        <Label id="txtCargaPuerto">Puerto de Origen: </Label> <input type="text" id="txtCargaPuerto"><br><br>
+        <Label id="txtCargaContenedores">Cantidad de Contenedores: </Label> <input type="text" id="txtCargaContenedores"><br><br>
+        <Label id="txtCargaIDEmpresa">ID de la Empresa: </Label> <input type="text" id="txtCargaIDEmpresa"><br><br>
+
+        <Label id="txtCargaDescripcion">Breve descripción de la carga: </Label><br>
+        <input type="text" id="txtCargaDescripcion"><br><br>
+        <input type="button" id="btnAccionarCargaImportador" value="Cargar Datos">
+    </div>
+
+    <div id="ConsultarSolicitudesPendientes">
+        <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><br><br>
+        <table border="1">
+            <thead> 
+                <tr>
+                    <th>
+                        Númmero de Viaje
+                    </th>
+                    <th>
+                        Tipo de Mercaderia
+                    </th>
+                    <th>
+                        Cantidad de Contenedores
+                    </th>
+                    <th>
+                        Puerto de Origen
+                    </th>
+                    <th>
+                        ID de la Empresa
+                    </th>
+                    <th>
+                        Descripción
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="CancelarSolicitudCarga">
+        ¿Cancelar Solicitud?
+        <input type="button" id="btnConfirmarCancelacion" value="Confirmar"> <input type="button" id="btnCancelarCancelacion" value="Cancelar"> 
+
+    </div>
+</body>
+</html>
