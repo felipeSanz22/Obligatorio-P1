@@ -12,6 +12,12 @@
         <input type="button" id="btnIngresarComoImportador" value="Importador">
     </div>
 
+    <div id="IngresarEnLaAplicacion">
+        <label for="txtNombreDeUsuario">Nombre de Usuario: </label><input type="text" id="txtNombreDeUsuario"><br><br>
+        <label for="txtContraseñaIngreso">Contraseña: </label><input type="text" id="txtContraseñaIngreso"><br><br>
+        <input type="button" id="btnIngresoGeneral" value="Ingresar">
+    </div>
+
     <div id="RegistrarImportador">
         <Label id="txtNombreImportador">Nombre: </Label> <input type="text" id="txtNombreImportador"><br><br>
         <Label id="txtIDImportador">ID: </Label> <input type="text" id="txtIDImportador"><br><br>
@@ -67,6 +73,110 @@
         ¿Cancelar Solicitud?
         <input type="button" id="btnConfirmarCancelacion" value="Confirmar"> <input type="button" id="btnCancelarCancelacion" value="Cancelar"> 
 
+    </div>
+
+    <div id="InformacionEstadistica">
+        <p id="msgTotalDeCargas">Total de Cargas: </p>
+        <p id="msgPorcentajeDeCancelaciones">Porcentaje de cancelaciones: </p>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Próximas llegadas
+                    </th>
+                    <th>
+                        Línea de carga
+                    </th>
+                    <th>
+                        Participación
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+    <div id="MenuEmpresa">
+        <p id="msgIdEmpresalogueada">Empresa</p><br><br>
+
+        <input type="button" id="btnMenuEmpresaToCrearViaje" value="Atras"><br><br>
+
+        <input type="button" id="btnMenuEmpresaToAsignar" value="Atras"><br><br>
+
+        <input type="button" id="btnMenuEmpresaToRollover" value="Atras"><br><br>
+
+        <input type="button" id="btnMenuEmpresaToManifiesto" value="Atras"><br><br>
+    </div>
+
+    <div id="CrearViajeDeUnBuque">
+        <input type="button" id="btnCrearViajeToMenuEmpresa" value="Atras"><br><br>
+
+        <label for="txtNombreBuque">Nombre del buque: </label><input type="text" id="txtNombreBuque"><br><br>
+        <label for="txtCapacidadMaxima">Capacidad máxima: </label><input type="text" id="txtCapacidadMaxima"><br><br>
+        <label for="txtFechallegada">Fecha de llegada: </label><input type="text" id="txtFechallegada"><br><br>
+        <input type="button" id="btnCrearViajeBuque" value="Ingresar">
+    </div>
+
+    <div id="AsignarBuque">
+        <input type="button" id="btnAsignarToMenuEmpresa" value="Atras"><br><br>
+
+        <label for="slcSolicitudesPendientes">Solicitud: </label><Select id="slcSolicitudesPendientes"><option value="PorDefecto1">Buscar entre las solicitudes pendientes</option></Select><br><br>
+        <label for="slcBuquesDisponibles">Buques disponibles: </label><Select id="slcBuquesDisponibles"><option value="PorDefecto2">Buscar entre los viajes disponibles</option></Select><br><br>
+        <input type="button" id="btnAsignarViajeBuque" value="Ingresar">
+    </div>
+
+    <div id="RolloverDeCarga">
+        <input type="button" id="btnRolloverToMenuEmpresa" value="Rollover"><br><br>
+
+        <label for="slcSolicitudRollover">Solicitud: </label><Select id="slcSolicitudRollover"><option value="PorDefecto3">Buscar entre las solicitudes confirmadas</option></Select><br><br>
+        <label for="slcBuquesDisponibles">Buques disponibles: </label><Select id="slcBuquesDisponibles"><option value="PorDefecto2">Buscar entre los viajes disponibles</option></Select><br><br>
+        <input type="button" id="btnRollover" value="Rollover">
+    </div>
+
+    <div id="ManifiestoDeCarga">
+        <input type="button" id="btnManifiesToMenuEmpresa" value="Rollover"><br><br>
+
+        <table border="1">
+            <thead> 
+                <tr>
+                    <th>
+                        Origen
+                    </th>
+                    <th>
+                        Contenedor
+                    </th>
+                    <th>
+                        Importador
+                    </th>
+                    <th>
+                        Descripción
+                    </th>
+                    <th>
+                        Tipo de Mercadería
+                    </th>
+                </tr>
+            </thead>
+        </table><br><br>
+        <input type="button" id="btnVerificarCargasPeligrosas" value="Verificar cargas peligrosas">
+    </div>
+
+    <div id="ListaDeCargaPeligrosa">
+        <input type="button" id="btnPeligrosaToManifiesto" value="Atras"><br><br>
+        <p>Cargas peligrosas</p><br><br>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Importador
+                    </th>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Carga
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </body>
 </html>
