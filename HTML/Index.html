@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="Pantalla de inicio">
+    <div id="PantallaDeInicio">
         <input type="button" id="btnIngresarComoEmpresa" value="Empresa">
         <input type="button" id="btnIngresarComoImportador" value="Importador">
     </div>
@@ -15,7 +15,8 @@
     <div id="IngresarEnLaAplicacion">
         <label for="txtNombreDeUsuario">Nombre de Usuario: </label><input type="text" id="txtNombreDeUsuario"><br><br>
         <label for="txtContraseñaIngreso">Contraseña: </label><input type="text" id="txtContraseñaIngreso"><br><br>
-        <input type="button" id="btnIngresoGeneral" value="Ingresar">
+        <input type="button" id="btnIngresoGeneral" value="Ingresar"><br><br>
+        <div id="IngresarARegistro"><a href="#" id="Registro">Registrarse</a></div>
     </div>
 
     <div id="RegistrarImportador">
@@ -24,10 +25,23 @@
         <Label id="txtContraseñaImportador">Contraseña: </Label> <input type="text" id="txtCargaContenedores"><br><br>
         <Label id="txtconfirmarContraseña">Confirmar Contraseña: </Label> <input type="text" id="txtCargaIDEmpresa"><br><br>
         <Label id="imgImportador">Foto: </label>
+        <input type="button" id="btnRegistrarImportadores">
 
     </div>
 
+    <div id="MenuImportador">
+        <p id="msgIdImportadorlogueado">Importador</p> <input type="button" id="btnLogoutImportador" value="Cerrar Sesión"><br><br>
+
+        <input type="button" id="btnMenuImportadorToSolicitudCarga" value="Crear Solicitud de Carga"><br><br>
+
+        <input type="button" id="btnMenuImportadorToSolicitudesPendientes" value="Solicitudes Pendientes"><br><br>
+
+        <input type="button" id="btnMenuImportadorToInformacionEstadistica" value="Informacion Estadistica"><br><br>
+    </div>
+
     <div id="CrearSolicitudCarga">
+        <input type="button" id="btnSolicitudCargaToMenuImportador" value="Atras"><br><br>
+
         <Label id="txtCargaMercaderia">Tipo de Mercaderia: </Label> <input type="text" id="txtCargaMercaderia"><br><br>
         <Label id="txtCargaPuerto">Puerto de Origen: </Label> <input type="text" id="txtCargaPuerto"><br><br>
         <Label id="txtCargaContenedores">Cantidad de Contenedores: </Label> <input type="text" id="txtCargaContenedores"><br><br>
@@ -39,6 +53,8 @@
     </div>
 
     <div id="ConsultarSolicitudesPendientes">
+        <input type="button" id="btnSolicitudesPendientesToMenuImportador" value="Atras"><br><br>
+
         <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><br><br>
         <table border="1">
             <thead> 
@@ -76,6 +92,8 @@
     </div>
 
     <div id="InformacionEstadistica">
+        <input type="button" id="btnInformacionEstadisticaToMenuImportador" value="Atras"><br><br>
+
         <p id="msgTotalDeCargas">Total de Cargas: </p>
         <p id="msgPorcentajeDeCancelaciones">Porcentaje de cancelaciones: </p>
         <table border="1">
@@ -96,15 +114,16 @@
     </div>
     
     <div id="MenuEmpresa">
-        <p id="msgIdEmpresalogueada">Empresa</p><br><br>
+        <p id="msgIdEmpresalogueada">Empresa</p> <input type="button" id="btnLogoutEmpresa" value="Cerrar Sesión"><br><br>
 
-        <input type="button" id="btnMenuEmpresaToCrearViaje" value="Atras"><br><br>
+        <input type="button" id="btnMenuEmpresaToCrearViaje" value="Crear Viaje de un Buque"><br><br>
 
-        <input type="button" id="btnMenuEmpresaToAsignar" value="Atras"><br><br>
+        <input type="button" id="btnMenuEmpresaToAsignar" value="Asignar un Buque a un Viaje"><br><br>
 
-        <input type="button" id="btnMenuEmpresaToRollover" value="Atras"><br><br>
+        <input type="button" id="btnMenuEmpresaToRollover" value="Rollovers"><br><br>
 
-        <input type="button" id="btnMenuEmpresaToManifiesto" value="Atras"><br><br>
+        <input type="button" id="btnMenuEmpresaToVerBuques" value="Ver Buques"><br><br>
+
     </div>
 
     <div id="CrearViajeDeUnBuque">
@@ -132,32 +151,40 @@
         <input type="button" id="btnRollover" value="Rollover">
     </div>
 
-    <div id="ManifiestoDeCarga">
-        <input type="button" id="btnManifiesToMenuEmpresa" value="Rollover"><br><br>
-
-        <table border="1">
-            <thead> 
-                <tr>
-                    <th>
-                        Origen
-                    </th>
-                    <th>
-                        Contenedor
-                    </th>
-                    <th>
-                        Importador
-                    </th>
-                    <th>
-                        Descripción
-                    </th>
-                    <th>
-                        Tipo de Mercadería
-                    </th>
-                </tr>
-            </thead>
-        </table><br><br>
-        <input type="button" id="btnVerificarCargasPeligrosas" value="Verificar cargas peligrosas">
+    <div id="BuquesAsignados">
+        <input type="button" id="btnVerBuquesToMenuEmpresa" value="Atras"><br><br>
+        <select id="slcVerBuques">
+            <option value="PorDefecto">Seleccionar un Buque </option>
+        </select>
+        
+        <div id="ManifiestoDeCarga">
+            <input type="button" id="btnManifiesToMenuEmpresa" value="Rollover"><br><br>
+    
+            <table border="1">
+                <thead> 
+                    <tr>
+                        <th>
+                            Origen
+                        </th>
+                        <th>
+                            Contenedor
+                        </th>
+                        <th>
+                            Importador
+                        </th>
+                        <th>
+                            Descripción
+                        </th>
+                        <th>
+                            Tipo de Mercadería
+                        </th>
+                    </tr>
+                </thead>
+            </table><br><br>
+            <input type="button" id="btnVerificarCargasPeligrosas" value="Verificar cargas peligrosas">
+        </div>
     </div>
+
 
     <div id="ListaDeCargaPeligrosa">
         <input type="button" id="btnPeligrosaToManifiesto" value="Atras"><br><br>
@@ -178,5 +205,6 @@
             </thead>
         </table>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
