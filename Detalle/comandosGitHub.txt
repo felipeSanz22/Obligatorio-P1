@@ -17,7 +17,7 @@ logo do facer todo esto:
 (Feli le explica como moverse en consola si voce no sabe(cl .. o cl "carpeta"))
 
 5. una vez en la carpeta, voce escribe en sua consola "git clone <url>" en este caso "git clone https://github.com/felipeSanz22/Obligatorio-P1"
-esto descargara todo el repositorio de github para sua pc
+esto descargara todo el repositorio de github para sua pcg
 
 listo
 

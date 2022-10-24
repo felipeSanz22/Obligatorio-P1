@@ -31,6 +31,7 @@ document.querySelector("#btnIngresarComoEmpresa").addEventListener("click", Ingr
 document.querySelector("#btnIngresarComoImportador").addEventListener("click", IngresarComoImportador);
 document.querySelector("#btnVolverAlingreso").addEventListener("click", VolverAlIngreso);
 document.querySelector("#btnIngresoGeneral").addEventListener("click", IngresoGeneral);
+document.querySelector("#btnRegistroToIngreso").addEventListener("click", RegistroToIngreso);
 document.querySelector("#Registro").addEventListener("click", Registro);
 document.querySelector("#btnRegistrarImportadores").addEventListener("click", RegistroDeImportadores);
 document.querySelector("#btnLogoutImportador").addEventListener("click", LogoutImportador);
@@ -38,11 +39,11 @@ document.querySelector("#btnMenuImportadorToSolicitudCarga").addEventListener("c
 document.querySelector("#btnMenuImportadorToSolicitudesPendientes").addEventListener("click", ImportadorToSolicitudesPendientes);
 document.querySelector("#btnMenuImportadorToInformacionEstadistica").addEventListener("click", MenuImportadorToInformacionEstadistica);
 document.querySelector("#btnSolicitudCargaToMenuImportador").addEventListener("click", SolicitudCargaToMenuImportador);
-document.querySelector("#btnAccionarCargaImportador").addEventListener("click", InformacionEstadisticaToMenuImportador);
-document.querySelector("#btnSolicitudesPendientesToMenuImportador").addEventListener("click", AccionarCargaImportador);
-document.querySelector("#btnConfirmarCancelacion").addEventListener("click", SolicitudesPendientesToMenuImportador);
-document.querySelector("#btnCancelarCancelacion").addEventListener("click", ConfirmarCancelacion);
-document.querySelector("#btnInformacionEstadisticaToMenuImportador").addEventListener("click", CancelarCancelacion);
+document.querySelector("#btnAccionarCargaImportador").addEventListener("click", AccionarCargaToMenuImportador);
+document.querySelector("#btnSolicitudesPendientesToMenuImportador").addEventListener("click", SolicitudesPendientesToMenuImportador);
+document.querySelector("#btnInformacionEstadisticaToMenuImportador").addEventListener("click", InformacionEstadisticaToMenuImportador);
+document.querySelector("#btnConfirmarCancelacion").addEventListener("click", ConfirmarCancelacion);
+document.querySelector("#btnCancelarCancelacion").addEventListener("click", CancelarCancelacion);
 document.querySelector("#btnLogoutEmpresa").addEventListener("click", LogoutEmpresa);
 document.querySelector("#btnMenuEmpresaToCrearViaje").addEventListener("click", MenuEmpresaToCrearViaje);
 document.querySelector("#btnMenuEmpresaToAsignar").addEventListener("click", MenuEmpresaToAsignar);
@@ -81,6 +82,7 @@ class Importador{constructor(unNombre,unUsuario,unaContraseña,unaFoto,unEstado)
     }
 }
 
+let usuarioIngresado=""
 let listaEmpresas= new Array()
 let listaImportadores= new Array()
 
@@ -103,27 +105,6 @@ listaImportadores.push(importador3);
 listaImportadores.push(importador4);
 
 
-function IngresarComoEmpresa(){
-    document.querySelector("#PantallaDeInicio").style.display="none"
-    document.querySelector("#IngresarEnLaAplicacion").style.display="block"
-}
-
-function IngresarComoImportador(){
-    document.querySelector("#PantallaDeInicio").style.display="none"
-    document.querySelector("#IngresarEnLaAplicacion").style.display="block"
-}
-
-function VolverAlIngreso(){
-    inicio()
-}
-
-function IngresoGeneral(){
-    let name=document.querySelector("#txtNombreDeUsuario").value
-    let password=document.querySelector("#txtContraseñaIngreso").value
-    
-}
-
-
 function validarClave(unaClave){
     let valida= true;
     if (unaClave.length <5){valida= false}
@@ -133,12 +114,32 @@ function validarClave(unaClave){
     return valida
 }
 
+function validarContraseña(password){
+    if (validarClave(password)===true){
+        for(let i in listaEmpresas){
+            let empresaIngresada=listaEmpresas[i].contraseñaEmpresa
+            if(empresaIngresada==password){return true}
+
+        }
+        for(let i in listaImportadores){
+            let importadorIngresado=listaEmpresas[i].contraseñaimportador
+            if(importadorIngresado==password){return true}
+
+        }
+    }
+}
+
 function VerificrUsuario(unUsuario){
+    let unUsuario=document.querySelector("#txtNombreDeUsuario").value
     let valida=false;
-    for (let i in listaEmpresas){
-       
-            }
-    return valida
+    for(let i in listaEmpresas){
+        let empresaIngresada=listaEmpresas[i].nombreEmpresa
+        if(empresaIngresada==unUsuario){return true}
+    }
+    for(let i in listaImportadores){
+        let importadorIngresado=listaEmpresas[i].usuarioImportador
+        if(importadorIngresado==unUsuario){return true}
+    }
 }
 
 function contarMayusculas(texto){
@@ -177,4 +178,171 @@ function contarNumeros(texto){
     }
     return cantidadNumeros 
 }
+
+
+function IngresarComoEmpresa(){
+    document.querySelector("#PantallaDeInicio").style.display="none"
+    document.querySelector("#IngresarEnLaAplicacion").style.display="block"
+}
+
+function IngresarComoImportador(){
+    document.querySelector("#PantallaDeInicio").style.display="none"
+    document.querySelector("#IngresarEnLaAplicacion").style.display="block"
+    document.querySelector("#IngresarARegistro").style.display="block"
+
+}
+
+function VolverAlIngreso(){
+    inicio()
+}
+
+function IngresoGeneral(){
+    ocultarTodo()
+    let name=document.querySelector("#txtNombreDeUsuario").value
+    let password=document.querySelector("#txtContraseñaIngreso").value
+
+    unaContra=validarContraseña(password)
+    unUser=VerificrUsuario(name)
+
+    if((unaContra==true)&&(unUser==true)){
+        usuarioIngresado==x
+    }
+    else{alert("Datos invalidos")}
+
+}
+
+function RegistroToIngreso(){
+    inicio()
+}
+
+function Registro(){
+    ocultarTodo()
+    document.querySelector("#RegistrarImportador").style.display="block"
+}
+
+function RegistroDeImportadores(){
+    ocultarTodo()
+    document.querySelector("#IngresarEnLaAplicacion").style.display="block"
+}
+
+function LogoutImportador(){
+    inicio()
+    usuarioIngresado=""
+}
+
+function MenuImportadorToSolicitudCarga(){
+    ocultarTodo()
+    document.querySelector("#CrearSolicitudCarga").style.display="block"
+}
+
+function ImportadorToSolicitudesPendientes(){
+    ocultarTodo()
+    document.querySelector("#ConsultarSolicitudesPendientes").style.display="block"
+}
+
+function MenuImportadorToInformacionEstadistica(){
+    ocultarTodo()
+    document.querySelector("#InformacionEstadistica").style.display="block"
+}
+
+function SolicitudCargaToMenuImportador(){
+    ocultarTodo()
+    document.querySelector("#CrearSolicitudCarga").style.display="block"
+}
+
+function SolicitudesPendientesToMenuImportador(){
+    ocultarTodo()
+    document.querySelector("#MenuImportador").style.display="block"
+}
+
+function AccionarCargaToMenuImportador(){
+    ocultarTodo()
+    document.querySelector("#MenuImportador").style.display="block"
+}
+
+function InformacionEstadisticaToMenuImportador(){
+    ocultarTodo()
+    document.querySelector("#MenuImportador").style.display="block"
+}
+
+function ConfirmarCancelacion(){
+    ocultarTodo()
+    ImportadorToSolicitudesPendientes()
+}
+
+function CancelarCancelacion(){
+    ocultarTodo()
+    ImportadorToSolicitudesPendientes()
+}
+
+function LogoutEmpresa(){
+    inicio()
+    usuarioIngresado=""
+}
+
+function MenuEmpresaToCrearViaje(){
+    ocultarTodo()
+    document.querySelector("#CrearViajeDeUnBuque").style.display="block"
+}
+
+function MenuEmpresaToAsignar(){
+    ocultarTodo()
+    document.querySelector("#AsignarBuque").style.display="block"
+}
+
+function MenuEmpresaToRollover(){
+    ocultarTodo()
+    document.querySelector("#RolloverDeCarga").style.display="block"
+}
+
+function MenuEmpresaToVerBuques(){
+    ocultarTodo()
+    document.querySelector("#BuquesAsignados").style.display="block"
+}
+
+function CrearViajeToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#MenuEmpresa").style.display="block"
+}
+
+function AsignarToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#MenuEmpresa").style.display="block"
+}
+
+function RolloverToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#MenuEmpresa").style.display="block"
+}
+
+function ManifiesToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#MenuEmpresa").style.display="block"
+}
+
+function VerBuquesToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#MenuEmpresa").style.display="block"
+}
+
+function CrearViajeBuque(){
+
+}
+
+function AsignarViajeBuque(){
+
+}
+
+function Rollover(){
+
+}
+
+function VerificarCargasPeligrosas(){
+
+}
+
+function PeligrosaToManifiesto(){
+
+}
+
 
