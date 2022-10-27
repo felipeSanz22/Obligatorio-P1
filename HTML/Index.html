@@ -8,25 +8,27 @@
 </head>
 <body>
     <div id="PantallaDeInicio">
+        ¡Bienvenido! <br><br>
+        Elija su tipo de usuario: <br><br>
         <input type="button" id="btnIngresarComoEmpresa" value="Empresa">
         <input type="button" id="btnIngresarComoImportador" value="Importador">
     </div>
 
     <div id="IngresarEnLaAplicacion">
-        <input type="button" id="btnVolverAlingreso" value="Atras"><br><br>
+        <input type="button" id="btnVolverAlingreso" value="Inicio"><br><br>
         <label for="txtNombreDeUsuario">Nombre de Usuario: </label><input type="text" id="txtNombreDeUsuario"><br><br>
-        <label for="txtContraseñaIngreso">Contraseña: </label><input type="text" id="txtContraseñaIngreso"><br><br>
+        <label for="txtContraseñaIngreso">Contraseña: </label><input type="password" id="txtContraseñaIngreso"><br><br>
         <input type="button" id="btnIngresoGeneral" value="Ingresar"><br><br>
         <div id="IngresarARegistro"><a href="#" id="Registro">Registrarse</a></div>
     </div>
 
     <div id="RegistrarImportador">
-        <input type="button" id="btnRegistroToIngreso" value="Atras"><br><br>
-        <Label id="txtNombreImportador">Nombre: </Label> <input type="text" id="txtNombreImportador"><br><br>
-        <Label id="txtIDImportador">ID: </Label> <input type="text" id="txtIDImportador"><br><br>
-        <Label id="txtContraseñaImportador">Contraseña: </Label> <input type="text" id="txtContraseñaImportador"><br><br>
-        <Label id="txtconfirmarContraseña">Confirmar Contraseña: </Label> <input type="text" id="txtconfirmarContraseña"><br><br>
-        <Label id="imgImportador">Foto: </label>
+        <input type="button" id="btnRegistroToIngreso" value="Inicio"><br><br>
+        <Label for="txtNombreImportador">Nombre: </Label> <input type="text" id="txtNombreImportador"><br><br>
+        <Label for="txtIDImportador">ID: </Label> <input type="text" id="txtIDImportador"><br><br>
+        <Label for="txtContraseñaImportador">Contraseña: </Label> <input type="password" id="txtContraseñaImportador"><br><br>
+        <Label for="txtconfirmarContraseña">Confirmar Contraseña: </Label> <input type="password" id="txtconfirmarContraseña"><br><br>
+        <Label for="imgImportador">Foto: </label><input type="button" id="btnImagenAnterior" value="<"><img id="imgImagenImportador" src="Imagenes/facebook.jpg"><input type="button" id="btnImagenSiguiente" value=">"><br><br>
         <input type="button" id="btnRegistrarImportadores" value="Registrarse">
 
     </div>
