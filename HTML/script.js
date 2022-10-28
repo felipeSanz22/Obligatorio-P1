@@ -366,7 +366,7 @@ function MenuImportadorToInformacionEstadistica(){
 
 function SolicitudCargaToMenuImportador(){
     ocultarTodo()
-    document.querySelector("#CrearSolicitudCarga").style.display="block"
+    document.querySelector("#MenuImportador").style.display="block"
 }
 
 function SolicitudesPendientesToMenuImportador(){
