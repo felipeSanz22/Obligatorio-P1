@@ -28,19 +28,23 @@
         <Label for="txtIDImportador">ID: </Label> <input type="text" id="txtIDImportador"><br><br>
         <Label for="txtContraseñaImportador">Contraseña: </Label> <input type="password" id="txtContraseñaImportador"><br><br>
         <Label for="txtconfirmarContraseña">Confirmar Contraseña: </Label> <input type="password" id="txtconfirmarContraseña"><br><br>
-        <Label for="imgImportador">Foto: </label><input type="button" id="btnImagenAnterior" value="<"><img id="imgImagenImportador" src="Imagenes/facebook.jpg"><input type="button" id="btnImagenSiguiente" value=">"><br><br>
+        <Label for="imgImportador">Foto: </label><input type="button" id="btnImagenAnterior" value="<"><img id="imgImagenImportador" src="ejemploimagenimg/sinfoto.png" width="100px"><input type="button" id="btnImagenSiguiente" value=">"><br><br>
         <input type="button" id="btnRegistrarImportadores" value="Registrarse">
 
     </div>
 
     <div id="MenuImportador">
-        <p id="msgIdImportadorlogueado">Importador</p> <input type="button" id="btnLogoutImportador" value="Cerrar Sesión"><br><br>
+        <p id="msgIdImportadorlogueado">Importador</p>
+        <p id="msgEstadoImportador"></p> 
+        <img src="" id="imgActual" width="100px"><br><br>
 
         <input type="button" id="btnMenuImportadorToSolicitudCarga" value="Crear Solicitud de Carga"><br><br>
 
         <input type="button" id="btnMenuImportadorToSolicitudesPendientes" value="Solicitudes Pendientes"><br><br>
 
         <input type="button" id="btnMenuImportadorToInformacionEstadistica" value="Informacion Estadistica"><br><br>
+        
+        <input type="button" id="btnLogoutImportador" value="Cerrar Sesión">
     </div>
 
     <div id="CrearSolicitudCarga">

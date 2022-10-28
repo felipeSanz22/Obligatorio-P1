@@ -60,10 +60,10 @@ document.querySelector("#btnManifiesToMenuEmpresa").addEventListener("click", Ve
 document.querySelector("#btnVerificarCargasPeligrosas").addEventListener("click", VerificarCargasPeligrosas);
 document.querySelector("#btnPeligrosaToManifiesto").addEventListener("click", PeligrosaToManifiesto);
 
-let contadorImportador=1
+let contadorImportador=0
 let soyImportador=0
 let cantidadDeSolicitudes=0
-let cantidadDeEmpresas=4
+let cantidadDeEmpresas=0
 let usuarioIngresado=""
 let contadorImagenes=0
 
@@ -77,11 +77,12 @@ class Empresa{constructor(unNombre,unUsuario,unaContraseña){
 }
 
 class Importador{constructor(unNombre,unUsuario,unaContraseña,unaFoto){
+    this.idImportadores=contadorImportador
     this.nombreImportador=unNombre;
     this.usuarioImportador=unUsuario;
     this.contraseñaimportador=unaContraseña;
     this.fotoImportador=unaFoto;
-    this.estado="habilitado"
+    this.estadoImportador="habilitado"
     contadorImportador++
     }
 }
@@ -102,7 +103,9 @@ class solicitud {constructor (cantidadDeSolicitudes,unaMercaderia,unaDescripcion
 let listaEmpresas= new Array()
 let listaImportadores= new Array()
 let listaSolicitudes= new Array()
-let imagenesUsuario= new Array()
+let imagenesUsuario = ["/HTML/ejemploimagenimg/sinfoto.jpg", "/HTML/ejemploimagenimg/1.jpg", "/HTML/ejemploimagenimg/2.jpg", "/HTML/ejemploimagenimg/3.jpg", "/HTML/ejemploimagenimg/4.jpg", "/HTML/ejemploimagenimg/5.jpg", "/HTML/ejemploimagenimg/6.jpg", "/HTML/ejemploimagenimg/7.jpg", "/HTML/ejemploimagenimg/8.jpg", "/HTML/ejemploimagenimg/9.jpg", "/HTML/ejemploimagenimg/10.jpg", "/HTML/ejemploimagenimg/11.jpg"]
+contadorImagenes=0
+
 
 let empresa1= new Empresa("FahrmutCompany","fahrmut","Ort22");
 let empresa2= new Empresa("BooBooCompany","booboo","Ort22");
@@ -113,33 +116,24 @@ listaEmpresas.push(empresa2);
 listaEmpresas.push(empresa3);
 listaEmpresas.push(empresa4);
 
-let  importador1= new Importador("Matias","mati","Ort22","img/foto.jpg");
-let  importador2= new Importador("Hatsujikan","criterio","Ort22","img/foto.jpg");
-let  importador3= new Importador("Kuky","kira","Ort22","img/foto.jpg");
-let  importador4= new Importador("DSonic","ludicolo","Ort22","img/foto.jpg");
+let importador1= new Importador("Matias","mati","Ort22","/HTML/ejemploimagenimg/1.jpg");
+let importador2= new Importador("Hatsujikan","criterio","Ort22","/HTML/ejemploimagenimg/2.jpg");
+let importador3= new Importador("Kuky","kira","Ort22","/HTML/ejemploimagenimg/3.jpg");
+let importador4= new Importador("DSonic","ludicolo","Ort22","/HTML/ejemploimagenimg/4.jpg");
 listaImportadores.push(importador1);
 listaImportadores.push(importador2);
 listaImportadores.push(importador3);
 listaImportadores.push(importador4);
 
-let imagen0="Imagenes/facebook.jpg"
-let imagen1="Imagenes/C3P0-R2D2.jpg"
-let imagen2="Imagenes/Chewy.jpg"
-let imagen3="Imagenes/DarthVader.jpg"
-let imagen4="Imagenes/HanSolo.jpg"
-let imagen5="Imagenes/Leia.jpg"
-let imagen6="Imagenes/Luke.jpg"
-let imagen7="Imagenes/ObiwanKenobi.jpg"
-let imagen8="Imagenes/Yoda.jpg"
-imagenesUsuario.push(imagen0);
-imagenesUsuario.push(imagen1);
-imagenesUsuario.push(imagen2);
-imagenesUsuario.push(imagen3);
-imagenesUsuario.push(imagen4);
-imagenesUsuario.push(imagen5);
-imagenesUsuario.push(imagen6);
-imagenesUsuario.push(imagen7);
-imagenesUsuario.push(imagen8);
+let solicitud1= new solicitud(cantidadDeSolicitudes,"Arroz","Arroz estilo japones","Puerto Osaka",3)
+let solicitud2= new solicitud(cantidadDeSolicitudes,"Fideos","Fideos estilo japones","Puerto Osaka",2)
+let solicitud3= new solicitud(cantidadDeSolicitudes,"Mochi","Mochi japones","Puerto Osaka",1)
+let solicitud4= new solicitud(cantidadDeSolicitudes,"Dumplings","Dumpling japoneses","Puerto Osaka",5)
+listaSolicitudes.push(solicitud1,solicitud2,solicitud3,solicitud4)
+listaSolicitudes[0].idEmpresas=listaEmpresas[0].idEmpresa
+listaSolicitudes[1].idEmpresas=listaEmpresas[1].idEmpresa
+listaSolicitudes[2].idEmpresas=listaEmpresas[2].idEmpresa
+listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
 
 
 
@@ -255,7 +249,8 @@ function IngresoGeneral(){
             if(empresaIngresada==name){
                 usuarioIngresado=listaEmpresas[i]
                 ocultarTodo()
-                document.querySelector("#MenuEmpresa").style.display="block"}
+                document.querySelector("#MenuEmpresa").style.display="block"
+                document.querySelector("#msgIdImportadorlogueado").innerHTML=listaImportadores[i].nombreEmpresa}
         }
     }
     else {if ((unaContra==true)&&(soyImportador==1)){
@@ -264,7 +259,10 @@ function IngresoGeneral(){
                 if(importadorIngresado==name){
                     usuarioIngresado=listaImportadores[i]
                     ocultarTodo()
-                    document.querySelector("#MenuImportador").style.display="block"}
+                    document.querySelector("#MenuImportador").style.display="block"
+                    document.querySelector("#msgIdImportadorlogueado").innerHTML=listaImportadores[i].nombreImportador
+                    document.querySelector("#imgActual").src=listaImportadores[i].fotoImportador
+                    document.querySelector("#msgEstadoImportador").innerHTML=listaImportadores[i].estadoImportador}
             }
         }
             
@@ -297,24 +295,29 @@ function existeUsuario(unUsuario){
 function Registro(){
    ocultarTodo()
    document.querySelector("#RegistrarImportador").style.display="block"
-
 }
+
 function ImagenAnterior(){
-let imagen=imagenesUsuario[contadorImagenes]
-if (contadorImagenes>0){
-    contadorImagenes--
-    document.querySelector("imgImagenImportador").src=imagen}
-else{contadorImagenes=8
-     document.querySelectorAll("#btnImagenAnterior").disable=true}
+    if (contadorImagenes > 0) {
+        contadorImagenes--
+        ruta=imagenesUsuario[contadorImagenes]
+        document.querySelector("#imgImagenImportador").src = ruta
+    } else {
+        contadorImagenes = 11
+        document.querySelectorAll("#flechaizq").disable = true
+    }
 }
 
 function ImagenSiguiente(){
-    let imagen=imagenesUsuario[contadorImagenes]
-if (contadorImagenes<8){
-    contadorImagenes++
-    document.querySelector("imgImagenImportador").src=imagen}
-else{contadorImagenes=0
-    document.querySelectorAll("#btnImagenAnterior").disable=true}
+    
+    if (contadorImagenes < 11) {
+        contadorImagenes++
+        ruta=imagenesUsuario[contadorImagenes]
+        document.querySelector("#imgImagenImportador").src =ruta
+    } else {
+        contadorImagenes = 0
+        document.querySelectorAll("#flechader").disable = true
+    }
 }
 
 function RegistroDeImportadores(){
@@ -322,15 +325,14 @@ function RegistroDeImportadores(){
     let usuario=document.querySelector("#txtIDImportador").value;
     let contraseña=document.querySelector("#txtContraseñaImportador").value;
     let confirmarContraseña=document.querySelector("#txtconfirmarContraseña").value;
-    let foto=document.querySelector("#btnImagenAnterior").value;
+    let foto=document.querySelector("#imgImagenImportador").value;
     if(existeUsuario(usuario)==false){
         if(validarClave(contraseña)==true){
             if (contraseña==confirmarContraseña){
                 let  importadorNuevo= new Importador(nombre,usuario,contraseña,foto);
                 listaImportadores.push(importadorNuevo);
                 alert("Usuario registrado exitosamente")
-                ocultarTodo()
-                document.querySelector("#RegistrarImportador").style.display="block"}
+                inicio()}
 
             else{alert("Las contraseñas deben coicidir")}
         }
