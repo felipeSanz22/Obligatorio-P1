@@ -325,7 +325,7 @@ function RegistroDeImportadores(){
     let usuario=document.querySelector("#txtIDImportador").value;
     let contraseña=document.querySelector("#txtContraseñaImportador").value;
     let confirmarContraseña=document.querySelector("#txtconfirmarContraseña").value;
-    let foto=document.querySelector("#imgImagenImportador").value;
+    let foto=document.querySelector("#imgImagenImportador").src;
     if(existeUsuario(usuario)==false){
         if(validarClave(contraseña)==true){
             if (contraseña==confirmarContraseña){
