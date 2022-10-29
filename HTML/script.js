@@ -139,7 +139,7 @@ listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
 for(let j in listaEmpresas){
     console.log(listaEmpresas[j].idEmpresa)
     listaEmpresas[j].idEmpresa
-    document.querySelector("#slcCargaIDEmpresa").innerHTML+="<option>"+listaEmpresas[j].idEmpresa+"</option>"
+    document.querySelector("#slcCargaIDEmpresa").innerHTML+="<option value="+j+">"+listaEmpresas[j].idEmpresa+"</option>"
 }
 
 
@@ -383,7 +383,7 @@ function AccionarCargaToMenuImportador(){
     let mercaderia=document.querySelector("#txtCargaMercaderia").value;
     let origen=document.querySelector("#txtCargaPuerto").value;
     let cantidad=document.querySelector("#txtCargaContenedores").value;
-    let idEmpr=parseInt(document.querySelector("#slcCargaIDEmpresa").value);
+    let idEmpr=document.querySelector("#slcCargaIDEmpresa").value;
     let descrip=parseInt(document.querySelector("#txtCargaDescripcion").value);
 
 
