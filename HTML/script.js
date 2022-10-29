@@ -87,7 +87,7 @@ class Importador{constructor(unNombre,unUsuario,unaContraseña,unaFoto){
     }
 }
 
-class solicitud {constructor (cantidadDeSolicitudes,unaMercaderia,unaDescripcion,unPuertoOrigen,unaCantidadContenedores){
+class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCantidadContenedores){
     this.id= cantidadDeSolicitudes
     this.tipoMercaderia=unaMercaderia
     this.descripcion=unaDescripcion
@@ -136,6 +136,11 @@ listaSolicitudes[2].idEmpresas=listaEmpresas[2].idEmpresa
 listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
 
 
+for(let j in listaEmpresas){
+    console.log(listaEmpresas[j].idEmpresa)
+    listaEmpresas[j].idEmpresa
+    document.querySelector("#slcCargaIDEmpresa").innerHTML+="<option>"+listaEmpresas[j].idEmpresa+"</option>"
+}
 
 
 function validarClave(unaClave){
@@ -375,8 +380,22 @@ function SolicitudesPendientesToMenuImportador(){
 }
 
 function AccionarCargaToMenuImportador(){
+    let mercaderia=document.querySelector("#txtCargaMercaderia").value;
+    let origen=document.querySelector("#txtCargaPuerto").value;
+    let cantidad=document.querySelector("#txtCargaContenedores").value;
+    let idEmpr=parseInt(document.querySelector("#slcCargaIDEmpresa").value);
+    let descrip=parseInt(document.querySelector("#txtCargaDescripcion").value);
+
+
+    let nuevaSolicitud= new solicitud(mercaderia,origen,cantidad,idEmpr,descrip);
+    listaSolicitudes.push(nuevaSolicitud);
     ocultarTodo()
     document.querySelector("#MenuImportador").style.display="block"
+    document.querySelector("#txtCargaMercaderia").value=""
+    document.querySelector("#txtCargaPuerto").value=""
+    document.querySelector("#txtCargaContenedores").value=""
+    document.querySelector("#slcCargaIDEmpresa").value=""
+    document.querySelector("#txtCargaDescripcion").value=""
 }
 
 function InformacionEstadisticaToMenuImportador(){
