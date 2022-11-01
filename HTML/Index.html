@@ -50,7 +50,12 @@
     <div id="CrearSolicitudCarga">
         <input type="button" id="btnSolicitudCargaToMenuImportador" value="Atras"><br><br>
 
-        <Label for="txtCargaMercaderia">Tipo de Mercaderia: </Label> <input type="text" id="txtCargaMercaderia"><br><br>
+        <Label for="slcCargaMercaderia">Tipo de Mercaderia: </Label> <select type="text" id="slcCargaMercaderia">
+            <option value="0">Selecconar tipo de carga</option>
+            <option value="1">Carga Gieneral</option>
+            <option value="2">Carga Refrigerada</option>
+            <option value="3">Carga Peligrosa</option>
+        </select><br><br>
         <Label for="txtCargaPuerto">Puerto de Origen: </Label> <input type="text" id="txtCargaPuerto"><br><br>
         <Label for="txtCargaContenedores">Cantidad de Contenedores: </Label> <input type="number" id="txtCargaContenedores"><br><br>
         <Label for="slcCargaIDEmpresa">ID de la Empresa: </Label> <select id="slcCargaIDEmpresa"><option value="0">Selecionar Empresa</option></select><br><br>
@@ -138,8 +143,9 @@
         <input type="button" id="btnCrearViajeToMenuEmpresa" value="Atras"><br><br>
 
         <label for="txtNombreBuque">Nombre del buque: </label><input type="text" id="txtNombreBuque"><br><br>
+        <label for="txtPuertoDeOrigenNuevo">Puerto de origen: </label><input type="text" id="txtPuertoDeOrigenNuevo"><br><br>
         <label for="txtCapacidadMaxima">Capacidad máxima: </label><input type="text" id="txtCapacidadMaxima"><br><br>
-        <label for="txtFechallegada">Fecha de llegada: </label><input type="text" id="txtFechallegada"><br><br>
+        Fecha de llegada: <input type="date" id="txtFecha"><p id="msgFechallegada"></p><br><br>
         <input type="button" id="btnCrearViajeBuque" value="Ingresar">
     </div>
 

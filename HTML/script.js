@@ -62,10 +62,12 @@ document.querySelector("#btnPeligrosaToManifiesto").addEventListener("click", Pe
 
 let contadorImportador=0
 let soyImportador=0
-let cantidadDeSolicitudes=0
+let cantidadDeSolicitudes=1
 let cantidadDeEmpresas=0
 let usuarioIngresado=""
 let contadorImagenes=0
+let cantidadDeViajes=1
+let fecha=""
 
 class Empresa{constructor(unNombre,unUsuario,unaContraseña){
     this.idEmpresa=cantidadDeEmpresas;
@@ -100,10 +102,22 @@ class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCan
     }
 }
 
+class viajes {constructor (unNombreBuque,unPuertoOrigen,losContenedoresDisponibles,fechaDeLlegada){
+    this.idViaje= cantidadDeViajes
+    this.nombreBuque=unNombreBuque
+    this.puertoOrigen=unPuertoOrigen
+    this.contenedoresDisponibles=losContenedoresDisponibles
+    this.estado ="disponible"
+    this.date=fechaDeLlegada
+    cantidadDeViajes++
+    }
+} 
+
 let listaEmpresas= new Array()
 let listaImportadores= new Array()
 let listaSolicitudes= new Array()
-let imagenesUsuario = ["/HTML/ejemploimagenimg/sinfoto.jpg", "/HTML/ejemploimagenimg/1.jpg", "/HTML/ejemploimagenimg/2.jpg", "/HTML/ejemploimagenimg/3.jpg", "/HTML/ejemploimagenimg/4.jpg", "/HTML/ejemploimagenimg/5.jpg", "/HTML/ejemploimagenimg/6.jpg", "/HTML/ejemploimagenimg/7.jpg", "/HTML/ejemploimagenimg/8.jpg", "/HTML/ejemploimagenimg/9.jpg", "/HTML/ejemploimagenimg/10.jpg", "/HTML/ejemploimagenimg/11.jpg"]
+let listaViajes= new Array()
+let imagenesUsuario = ["ejemploimagenimg/sinfoto.jpg", "ejemploimagenimg/1.jpg", "ejemploimagenimg/2.jpg", "ejemploimagenimg/3.jpg", "ejemploimagenimg/4.jpg", "ejemploimagenimg/5.jpg", "ejemploimagenimg/6.jpg", "ejemploimagenimg/7.jpg", "ejemploimagenimg/8.jpg", "ejemploimagenimg/9.jpg", "ejemploimagenimg/10.jpg", "ejemploimagenimg/11.jpg"]
 contadorImagenes=0
 
 
@@ -116,32 +130,56 @@ listaEmpresas.push(empresa2);
 listaEmpresas.push(empresa3);
 listaEmpresas.push(empresa4);
 
-let importador1= new Importador("Matias","mati","Ort22","/HTML/ejemploimagenimg/1.jpg");
-let importador2= new Importador("Hatsujikan","criterio","Ort22","/HTML/ejemploimagenimg/2.jpg");
-let importador3= new Importador("Kuky","kira","Ort22","/HTML/ejemploimagenimg/3.jpg");
-let importador4= new Importador("DSonic","ludicolo","Ort22","/HTML/ejemploimagenimg/4.jpg");
+let importador1= new Importador("Matias","mati","Ort22","ejemploimagenimg/1.jpg");
+let importador2= new Importador("Hatsujikan","criterio","Ort22","ejemploimagenimg/2.jpg");
+let importador3= new Importador("Kuky","kira","Ort22","ejemploimagenimg/3.jpg");
+let importador4= new Importador("DSonic","ludicolo","Ort22","ejemploimagenimg/4.jpg");
 listaImportadores.push(importador1);
 listaImportadores.push(importador2);
 listaImportadores.push(importador3);
 listaImportadores.push(importador4);
 
-let solicitud1= new solicitud(cantidadDeSolicitudes,"Arroz","Arroz estilo japones","Puerto Osaka",3)
-let solicitud2= new solicitud(cantidadDeSolicitudes,"Fideos","Fideos estilo japones","Puerto Osaka",2)
-let solicitud3= new solicitud(cantidadDeSolicitudes,"Mochi","Mochi japones","Puerto Osaka",1)
-let solicitud4= new solicitud(cantidadDeSolicitudes,"Dumplings","Dumpling japoneses","Puerto Osaka",5)
+let solicitud1= new solicitud("Carga General","Arroz estilo japones","Puerto Osaka",3,cantidadDeSolicitudes)
+let solicitud2= new solicitud("Carga General","Fideos estilo japones","Puerto Osaka",2,cantidadDeSolicitudes)
+let solicitud3= new solicitud("Carga Refrigerada","Mochi japones","Puerto Osaka",1,cantidadDeSolicitudes)
+let solicitud4= new solicitud("Carga Refrigerada","Dumpling japoneses","Puerto Osaka",5,cantidadDeSolicitudes)
 listaSolicitudes.push(solicitud1,solicitud2,solicitud3,solicitud4)
 listaSolicitudes[0].idEmpresas=listaEmpresas[0].idEmpresa
 listaSolicitudes[1].idEmpresas=listaEmpresas[1].idEmpresa
 listaSolicitudes[2].idEmpresas=listaEmpresas[2].idEmpresa
 listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
 
+let viaje1= new viajes("Pinta","Puerto Osaka",12,"Fecha")
+let viaje2= new viajes("Niña","Santa Cruz",7,"Fecha")
+let viaje3= new viajes("Santa Maria","Toledo",15,"Fecha")
+let viaje4= new viajes("Perla Negra","Nueva Inglaterra",24,"Fecha")
+listaViajes.push(viaje1,viaje2,viaje3,viaje4)
 
-for(let j in listaEmpresas){
-    console.log(listaEmpresas[j].idEmpresa)
-    listaEmpresas[j].idEmpresa
-    document.querySelector("#slcCargaIDEmpresa").innerHTML+="<option value="+j+">"+listaEmpresas[j].idEmpresa+"</option>"
+function cargarFecha(){
+    fecha=document.querySelector("#txtFecha").value
+    fecha=fecha.replace("-","")
+    fecha=fecha.replace("-","")
+
 }
 
+function mostrarFecha(){
+
+    document.querySelector("#msgFechallegada").innerHTML=fecha
+    let fechaDeHoy=mostrarFechaHoy()
+    document.querySelector("#msgFechallegada").innerHTML+=fechaDeHoy
+}
+
+function mostrarFechaHoy(){
+let fecha= new Date()
+let anio=fecha.getFullYear()
+let mes=fecha.getMonth()+1
+if (mes<10) mes=`0${mes}`
+let dia=fecha.getDate()
+if (dia<10) dia=`0${dia}`
+let mifecha=`${anio}${mes}${dia}`
+return mifecha 
+
+}
 
 function validarClave(unaClave){
     let valida= true;
@@ -250,7 +288,6 @@ function IngresoGeneral(){
     if((unaContra==true)&&(soyImportador==0)){
         for(let i in listaEmpresas){
             let empresaIngresada=listaEmpresas[i].usuarioEmpresa
-            console.log(name)
             if(empresaIngresada==name){
                 usuarioIngresado=listaEmpresas[i]
                 ocultarTodo()
@@ -357,6 +394,12 @@ function LogoutImportador(){
 function MenuImportadorToSolicitudCarga(){
     ocultarTodo()
     document.querySelector("#CrearSolicitudCarga").style.display="block"
+    let seleccionarEmpresa= document.querySelector("#slcCargaIDEmpresa");
+    for(let unaEmpresa of listaEmpresas){
+         
+        seleccionarEmpresa.innerHTML+=`<option value=${unaEmpresa.idEmpresa}> ${unaEmpresa.idEmpresa} ${unaEmpresa.nombreEmpresa} </option>`
+       
+    }
 }
 
 function ImportadorToSolicitudesPendientes(){
@@ -380,14 +423,14 @@ function SolicitudesPendientesToMenuImportador(){
 }
 
 function AccionarCargaToMenuImportador(){
-    let mercaderia=document.querySelector("#txtCargaMercaderia").value;
+    let mercaderia=document.querySelector("#slcCargaMercaderia").value;
     let origen=document.querySelector("#txtCargaPuerto").value;
     let cantidad=document.querySelector("#txtCargaContenedores").value;
     let idEmpr=document.querySelector("#slcCargaIDEmpresa").value;
     let descrip=parseInt(document.querySelector("#txtCargaDescripcion").value);
 
 
-    let nuevaSolicitud= new solicitud(mercaderia,origen,cantidad,idEmpr,descrip);
+    let nuevaSolicitud= new solicitud(mercaderia,origen,cantidad,idEmpr,descrip,cantidadDeSolicitudes);
     listaSolicitudes.push(nuevaSolicitud);
     ocultarTodo()
     document.querySelector("#MenuImportador").style.display="block"
@@ -423,6 +466,9 @@ function LogoutEmpresa(){
 function MenuEmpresaToCrearViaje(){
     ocultarTodo()
     document.querySelector("#CrearViajeDeUnBuque").style.display="block"
+    document.querySelector("#txtNombreBuque").value=""
+    document.querySelector("#txtPuertoDeOrigenNuevo").value=""
+    document.querySelector("#txtCapacidadMaxima").value=""
 }
 
 function MenuEmpresaToAsignar(){
@@ -466,7 +512,17 @@ function VerBuquesToMenuEmpresa(){
 }
 
 function CrearViajeBuque(){
+    let nombreBuqueCreado=document.querySelector("#txtNombreBuque").value
+    let puertoOrigenNuevo=document.querySelector("#txtPuertoDeOrigenNuevo").value
+    let cantMaxContenedores=parseInt(document.querySelector("#txtCapacidadMaxima").value)
 
+    if (nombreBuqueCreado==""){alert("Ingrese Nombre de Buque")}
+    else{ if(puertoOrigenNuevo=""){alert("Ingrese Puerto de Origen")}
+            else{ if(cantMaxContenedores==""){ alert("Ingrese cantidad de contenedores")}
+                else{ let nuevoViaje= new viajes(nombreBuqueCreado,puertoOrigenNuevo,cantMaxContenedores,cargarFecha(fechaDeArribo))
+                listaViajes.push(nuevoViaje)
+            }}
+    }
 }
 
 function AsignarViajeBuque(){
@@ -484,3 +540,10 @@ function VerificarCargasPeligrosas(){
 function PeligrosaToManifiesto(){
 
 }
+
+
+
+
+
+
+
