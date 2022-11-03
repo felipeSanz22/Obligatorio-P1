@@ -159,14 +159,6 @@ function cargarFecha(){
     fecha=document.querySelector("#txtFecha").value
     fecha=fecha.replace("-","")
     fecha=fecha.replace("-","")
-
-}
-
-function mostrarFecha(){
-
-    document.querySelector("#msgFechallegada").innerHTML=fecha
-    let fechaDeHoy=mostrarFechaHoy()
-    document.querySelector("#msgFechallegada").innerHTML+=fechaDeHoy
 }
 
 function mostrarFechaHoy(){
@@ -315,7 +307,6 @@ function IngresoGeneral(){
                 soyImportador=0}}
 }
         
-
 function RegistroToIngreso(){
     inicio()
 }
@@ -402,9 +393,76 @@ function MenuImportadorToSolicitudCarga(){
     }
 }
 
+function crearTablaSoliPendientes(){
+    document.querySelector("#msgSolicitudesPendientes").innerHTML+=
+    '<table border="1">'+
+    '<thead>'+
+        '<tr>'+
+            '<th>'+
+                'Númmero de Viaje'+
+            '</th>'+
+            '<th>'+
+                'Tipo de Mercaderia'+
+           '</th>'+
+            '<th>'+
+                'Cantidad de Contenedores'+
+            '</th>'+
+            '<th>'+
+                'Puerto de Origen'+
+            '</th>'+
+            '<th>'+
+                'ID de la Empresa'+
+            '</th>'+
+            '<th>'+
+                'Descripción'+
+            '</th>'+
+            '<th>'+
+                'Estado'+
+            '</th>'+
+        '</tr>'+
+    '</thead>'+
+    '<tbody>'+
+    '<tr>'
+}
+
+function cargarDAtosSoliPendientes(){
+    for(let i in listaViajes){
+            document.querySelector("#msgSolicitudesPendientes").innerHTML+=
+            '<td>'+
+                listaSolicitudes[i].id+
+            '</th>'+
+            '<td>'+
+                listaSolicitudes[i].tipoMercaderia+
+           '</td>'+
+            '<td>'+
+                listaSolicitudes[i].cantidadContenedores+
+            '</td>'+
+            '<td>'+
+                listaSolicitudes[i].puertoOrigen+
+            '</td>'+
+            '<td>'+
+                listaSolicitudes[i].idEmpresas+
+            '</td>'+
+            '<td>'+
+                listaSolicitudes[i].descripcion+
+            '</td>'+
+            '<td>'+
+                listaSolicitudes[i].estado+
+            '</td>'
+    }
+    console.log("hola")
+    document.querySelector("#msgSolicitudesPendientes").innerHTML+=
+    '</tr>'+
+    '</tbody>'+
+    '</table>'
+}
+
 function ImportadorToSolicitudesPendientes(){
     ocultarTodo()
     document.querySelector("#ConsultarSolicitudesPendientes").style.display="block"
+    crearTablaSoliPendientes()
+    cargarDAtosSoliPendientes()
+
 }
 
 function MenuImportadorToInformacionEstadistica(){
@@ -516,14 +574,18 @@ function CrearViajeBuque(){
     let puertoOrigenNuevo=document.querySelector("#txtPuertoDeOrigenNuevo").value
     let cantMaxContenedores=parseInt(document.querySelector("#txtCapacidadMaxima").value)
 
-    if (nombreBuqueCreado==""){alert("Ingrese Nombre de Buque")}
-    else{ if(puertoOrigenNuevo=""){alert("Ingrese Puerto de Origen")}
-            else{ if(cantMaxContenedores==""){ alert("Ingrese cantidad de contenedores")}
-                else{ let nuevoViaje= new viajes(nombreBuqueCreado,puertoOrigenNuevo,cantMaxContenedores,cargarFecha(fechaDeArribo))
+    if (nombreBuqueCreado===""){alert("Ingrese Nombre de Buque")}
+    else{ if(puertoOrigenNuevo===""){alert("Ingrese Puerto de Origen")}
+            else{ if((cantMaxContenedores==="")||(cantMaxContenedores<1)){ alert("Ingrese cantidad de contenedores")}
+                else{
+                    cargarFecha()
+                    let nuevoViaje= new viajes(nombreBuqueCreado,puertoOrigenNuevo,cantMaxContenedores,fecha)
                 listaViajes.push(nuevoViaje)
-            }}
+                alert("Viaje cargado correctamente")
+                    }
+            }
     }
-}
+}  
 
 function AsignarViajeBuque(){
 

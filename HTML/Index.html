@@ -69,33 +69,7 @@
         <input type="button" id="btnSolicitudesPendientesToMenuImportador" value="Atras"><br><br>
 
         <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><br><br>
-        <table border="1">
-            <thead> 
-                <tr>
-                    <th>
-                        Númmero de Viaje
-                    </th>
-                    <th>
-                        Tipo de Mercaderia
-                    </th>
-                    <th>
-                        Cantidad de Contenedores
-                    </th>
-                    <th>
-                        Puerto de Origen
-                    </th>
-                    <th>
-                        ID de la Empresa
-                    </th>
-                    <th>
-                        Descripción
-                    </th>
-                    <th>
-                        Estado
-                    </th>
-                </tr>
-            </thead>
-        </table>
+        <p id="msgSolicitudesPendientes"></p>
     </div>
 
     <div id="CancelarSolicitudCarga">
@@ -144,7 +118,7 @@
 
         <label for="txtNombreBuque">Nombre del buque: </label><input type="text" id="txtNombreBuque"><br><br>
         <label for="txtPuertoDeOrigenNuevo">Puerto de origen: </label><input type="text" id="txtPuertoDeOrigenNuevo"><br><br>
-        <label for="txtCapacidadMaxima">Capacidad máxima: </label><input type="text" id="txtCapacidadMaxima"><br><br>
+        <label for="txtCapacidadMaxima">Capacidad máxima: </label><input type="number" id="txtCapacidadMaxima"><br><br>
         Fecha de llegada: <input type="date" id="txtFecha"><p id="msgFechallegada"></p><br><br>
         <input type="button" id="btnCrearViajeBuque" value="Ingresar">
     </div>
