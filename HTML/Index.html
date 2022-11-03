@@ -70,10 +70,12 @@
 
         <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><br><br>
         <p id="msgSolicitudesPendientes"></p>
+        <input type="button" id="btnCancelarSolicitudesDeCarga" value="Cargar Datos">
     </div>
 
     <div id="CancelarSolicitudCarga">
         ¿Cancelar Solicitud?
+        <select id="slcCancelarSolicitud"><option value="CancelarSolicitudSelect">Seleccionar solicitud a cancelar</option></select>
         <input type="button" id="btnConfirmarCancelacion" value="Confirmar"> <input type="button" id="btnCancelarCancelacion" value="Cancelar"> 
 
     </div>
@@ -101,7 +103,7 @@
     </div>
     
     <div id="MenuEmpresa">
-        <p id="msgIdEmpresalogueada">Empresa</p> <input type="button" id="btnLogoutEmpresa" value="Cerrar Sesión"><br><br>
+        <p id="msgIdEmpresalogueada">Empresa</p><br>
 
         <input type="button" id="btnMenuEmpresaToCrearViaje" value="Crear Viaje de un Buque"><br><br>
 
@@ -110,6 +112,8 @@
         <input type="button" id="btnMenuEmpresaToRollover" value="Rollovers"><br><br>
 
         <input type="button" id="btnMenuEmpresaToVerBuques" value="Ver Buques"><br><br>
+
+        <input type="button" id="btnLogoutEmpresa" value="Cerrar Sesión">
 
     </div>
 

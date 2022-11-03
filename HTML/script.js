@@ -37,6 +37,7 @@ document.querySelector("#btnRegistrarImportadores").addEventListener("click", Re
 document.querySelector("#btnLogoutImportador").addEventListener("click", LogoutImportador);
 document.querySelector("#btnMenuImportadorToSolicitudCarga").addEventListener("click", MenuImportadorToSolicitudCarga);
 document.querySelector("#btnMenuImportadorToSolicitudesPendientes").addEventListener("click", ImportadorToSolicitudesPendientes);
+document.querySelector("#btnCancelarSolicitudesDeCarga").addEventListener("click", CancelarSolicitudesDeCarga);
 document.querySelector("#btnMenuImportadorToInformacionEstadistica").addEventListener("click", MenuImportadorToInformacionEstadistica);
 document.querySelector("#btnSolicitudCargaToMenuImportador").addEventListener("click", SolicitudCargaToMenuImportador);
 document.querySelector("#btnAccionarCargaImportador").addEventListener("click", AccionarCargaToMenuImportador);
@@ -95,7 +96,7 @@ class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCan
     this.descripcion=unaDescripcion
     this.puertoOrigen=unPuertoOrigen
     this.cantidadContenedores=unaCantidadContenedores
-    this.estado ="pendiente"
+    this.estadoSolicitud="pendiente"
     this.idEmpresas=null
     this.idViaje=null
     cantidadDeSolicitudes++
@@ -388,86 +389,66 @@ function MenuImportadorToSolicitudCarga(){
     let seleccionarEmpresa= document.querySelector("#slcCargaIDEmpresa");
     for(let unaEmpresa of listaEmpresas){
          
-        seleccionarEmpresa.innerHTML+=`<option value=${unaEmpresa.idEmpresa}> ${unaEmpresa.idEmpresa} ${unaEmpresa.nombreEmpresa} </option>`
+        seleccionarEmpresa.innerHTML+=`<option value=${unaEmpresa.idEmpresa}> ${unaEmpresa.idEmpresa} // ${unaEmpresa.nombreEmpresa} </option>`
        
     }
 }
 
 function crearTablaSoliPendientes(){
-    document.querySelector("#msgSolicitudesPendientes").innerHTML+=
-    '<table border="1">'+
-    '<thead>'+
-        '<tr>'+
-            '<th>'+
-                'Númmero de Viaje'+
-            '</th>'+
-            '<th>'+
-                'Tipo de Mercaderia'+
-           '</th>'+
-            '<th>'+
-                'Cantidad de Contenedores'+
-            '</th>'+
-            '<th>'+
-                'Puerto de Origen'+
-            '</th>'+
-            '<th>'+
-                'ID de la Empresa'+
-            '</th>'+
-            '<th>'+
-                'Descripción'+
-            '</th>'+
-            '<th>'+
-                'Estado'+
-            '</th>'+
-        '</tr>'+
-    '</thead>'+
-    '<tbody>'+
-    '<tr>'
+
+  
+    miTabla=
+    `<table border="1">
+        <tr>
+            <th>Númmero de Viaje</th>
+            <th>Tipo de Mercaderia</th>
+            <th>Cantidad de Contenedores</th>
+            <th>Puerto de Origen</th>
+            <th>ID de la Empresa</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+        </tr>`
+    
+    for(let i in listaSolicitudes){
+        miTabla+=
+        `<tr>
+        <td>${listaSolicitudes[i].id}</td>
+        <td>${listaSolicitudes[i].tipoMercaderia}</td>
+        <td>${listaSolicitudes[i].cantidadContenedores}</td>
+        <td>${listaSolicitudes[i].puertoOrigen}</td>
+        <td>${listaSolicitudes[i].idEmpresas}</td>
+        <td>${listaSolicitudes[i].descripcion}</td>
+        <td>${listaSolicitudes[i].estadoSolicitud}</td>
+        </tr>`
+    }
+    
+    miTabla+=`</table>`
+    document.querySelector("#msgSolicitudesPendientes").innerHTML=miTabla
 }
 
-function cargarDAtosSoliPendientes(){
-    for(let i in listaViajes){
-            document.querySelector("#msgSolicitudesPendientes").innerHTML+=
-            '<td>'+
-                listaSolicitudes[i].id+
-            '</th>'+
-            '<td>'+
-                listaSolicitudes[i].tipoMercaderia+
-           '</td>'+
-            '<td>'+
-                listaSolicitudes[i].cantidadContenedores+
-            '</td>'+
-            '<td>'+
-                listaSolicitudes[i].puertoOrigen+
-            '</td>'+
-            '<td>'+
-                listaSolicitudes[i].idEmpresas+
-            '</td>'+
-            '<td>'+
-                listaSolicitudes[i].descripcion+
-            '</td>'+
-            '<td>'+
-                listaSolicitudes[i].estado+
-            '</td>'
+function CancelarSolicitudesDeCarga(){
+
+    document.querySelector("#CancelarSolicitudCarga").style.display="block"
+    let cancelarSolicitudPendiente= document.querySelector("#slcCancelarSolicitud");
+    cancelarSolicitudPendiente.innerHTML=""
+    for(let unaSolicitudPendiente of listaSolicitudes){
+        if(unaSolicitudPendiente.estadoSolicitud=="pendiente"){
+        cancelarSolicitudPendiente.innerHTML+=`<option value=${unaSolicitudPendiente.id}> ${unaSolicitudPendiente.id} // ${unaSolicitudPendiente.descripcion} </option>`}
+       
     }
-    console.log("hola")
-    document.querySelector("#msgSolicitudesPendientes").innerHTML+=
-    '</tr>'+
-    '</tbody>'+
-    '</table>'
 }
 
 function ImportadorToSolicitudesPendientes(){
     ocultarTodo()
     document.querySelector("#ConsultarSolicitudesPendientes").style.display="block"
     crearTablaSoliPendientes()
-    cargarDAtosSoliPendientes()
 
 }
 
 function MenuImportadorToInformacionEstadistica(){
     ocultarTodo()
     document.querySelector("#InformacionEstadistica").style.display="block"
+
 }
 
 function SolicitudCargaToMenuImportador(){
@@ -506,7 +487,11 @@ function InformacionEstadisticaToMenuImportador(){
 
 function ConfirmarCancelacion(){
     ocultarTodo()
+    cancelarSolicitud=document.querySelector("#slcCancelarSolicitud").value;
+    listaSolicitudes[cancelarSolicitud].estadoSolicitud="cancelado"
+    alert("Solicitud cancelada con exito")
     ImportadorToSolicitudesPendientes()
+    
 }
 
 function CancelarCancelacion(){
