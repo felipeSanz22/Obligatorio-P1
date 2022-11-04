@@ -63,7 +63,7 @@ document.querySelector("#btnPeligrosaToManifiesto").addEventListener("click", Pe
 
 let contadorImportador=0
 let soyImportador=0
-let cantidadDeSolicitudes=1
+let cantidadDeSolicitudes=0
 let cantidadDeEmpresas=0
 let usuarioIngresado=""
 let contadorImagenes=0
@@ -90,12 +90,13 @@ class Importador{constructor(unNombre,unUsuario,unaContraseña,unaFoto){
     }
 }
 
-class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCantidadContenedores){
+class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCantidadContenedores,unoIdSolicitud){
     this.id= cantidadDeSolicitudes
     this.tipoMercaderia=unaMercaderia
     this.descripcion=unaDescripcion
     this.puertoOrigen=unPuertoOrigen
     this.cantidadContenedores=unaCantidadContenedores
+    this.idSoliImportador=unoIdSolicitud
     this.estadoSolicitud="pendiente"
     this.idEmpresas=null
     this.idViaje=null
@@ -144,11 +145,39 @@ let solicitud1= new solicitud("Carga General","Arroz estilo japones","Puerto Osa
 let solicitud2= new solicitud("Carga General","Fideos estilo japones","Puerto Osaka",2,cantidadDeSolicitudes)
 let solicitud3= new solicitud("Carga Refrigerada","Mochi japones","Puerto Osaka",1,cantidadDeSolicitudes)
 let solicitud4= new solicitud("Carga Refrigerada","Dumpling japoneses","Puerto Osaka",5,cantidadDeSolicitudes)
-listaSolicitudes.push(solicitud1,solicitud2,solicitud3,solicitud4)
+let solicitud5= new solicitud("Carga General","Activos para cosmeticos","Puerto Amsterdam",2,cantidadDeSolicitudes)
+let solicitud6= new solicitud("Carga General","Envases para cosmeticos","Puerto Maiami",4,cantidadDeSolicitudes)
+let solicitud7= new solicitud("Carga Peligrosa","Dinamita","Puerto Shanghai",5,cantidadDeSolicitudes)
+let solicitud8= new solicitud("Carga Peligrosa","Combustible","Puerto Guangzhou",1,cantidadDeSolicitudes)
+let solicitud9= new solicitud("Carga Peligrosa","Fuegos Artificiales","Puerto Guangzhou",8,cantidadDeSolicitudes)
+let solicitud10= new solicitud("Carga Peligrosa","Baterias","Puerto HongKong",3,cantidadDeSolicitudes)
+
+
+listaSolicitudes.push(solicitud1,solicitud2,solicitud3,solicitud4,solicitud5,solicitud6,solicitud7,solicitud8,solicitud9,solicitud10)
 listaSolicitudes[0].idEmpresas=listaEmpresas[0].idEmpresa
 listaSolicitudes[1].idEmpresas=listaEmpresas[1].idEmpresa
 listaSolicitudes[2].idEmpresas=listaEmpresas[2].idEmpresa
 listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
+listaSolicitudes[4].idEmpresas=listaEmpresas[0].idEmpresa
+listaSolicitudes[5].idEmpresas=listaEmpresas[1].idEmpresa
+listaSolicitudes[6].idEmpresas=listaEmpresas[2].idEmpresa
+listaSolicitudes[7].idEmpresas=listaEmpresas[3].idEmpresa
+listaSolicitudes[8].idEmpresas=listaEmpresas[0].idEmpresa
+listaSolicitudes[9].idEmpresas=listaEmpresas[1].idEmpresa
+
+
+listaSolicitudes[0].idSoliImportador=listaImportadores[0].idImportadores
+listaSolicitudes[1].idSoliImportador=listaImportadores[1].idImportadores
+listaSolicitudes[2].idSoliImportador=listaImportadores[2].idImportadores
+listaSolicitudes[3].idSoliImportador=listaImportadores[3].idImportadores
+listaSolicitudes[4].idSoliImportador=listaImportadores[0].idImportadores
+listaSolicitudes[5].idSoliImportador=listaImportadores[1].idImportadores
+listaSolicitudes[6].idSoliImportador=listaImportadores[2].idImportadores
+listaSolicitudes[7].idSoliImportador=listaImportadores[3].idImportadores
+listaSolicitudes[8].idSoliImportador=listaImportadores[0].idImportadores
+listaSolicitudes[9].idSoliImportador=listaImportadores[1].idImportadores
+
+
 
 let viaje1= new viajes("Pinta","Puerto Osaka",12,"Fecha")
 let viaje2= new viajes("Niña","Santa Cruz",7,"Fecha")
@@ -431,10 +460,12 @@ function CancelarSolicitudesDeCarga(){
     document.querySelector("#CancelarSolicitudCarga").style.display="block"
     let cancelarSolicitudPendiente= document.querySelector("#slcCancelarSolicitud");
     cancelarSolicitudPendiente.innerHTML=""
-    for(let unaSolicitudPendiente of listaSolicitudes){
-        if(unaSolicitudPendiente.estadoSolicitud=="pendiente"){
-        cancelarSolicitudPendiente.innerHTML+=`<option value=${unaSolicitudPendiente.id}> ${unaSolicitudPendiente.id} // ${unaSolicitudPendiente.descripcion} </option>`}
-       
+    cancelarSolicitudPendiente.innerHTML= `<option value="CancelarSolicitudSelect">Seleccionar solicitud a cancelar</option>`
+    for(let i in listaSolicitudes){
+        if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
+            if(listaSolicitudes[i].estadoSolicitud==="pendiente"){
+                cancelarSolicitudPendiente.innerHTML+=`<option value=${listaSolicitudes[i].id}> ${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion} </option>`}
+        }
     }
 }
 
