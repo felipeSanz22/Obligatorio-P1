@@ -592,7 +592,8 @@ function MenuEmpresaToAsignar(){
         }
     }
     for(let w in listaViajes){
-        misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`
+        if(listaViajes[w].contenedoresDisponibles>0){
+        misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`}
         
     }
 }
@@ -656,18 +657,19 @@ function AsignarViajeBuque(){
 
     for(let i in listaSolicitudes){
         if(listaSolicitudes[i].id===miSolicitud){
-            if(listaSolicitudes[i].cantidadContenedores-misBuques>=0){
-            listaSolicitudes[i].idViaje=misBuques
             for(let w in listaViajes){
                 if(listaViajes[w].idViaje===misBuques){
-                    listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
-                    listaSolicitudes[i].estadoSolicitud="ACEPTADA"
-                    alert("Carga realizada con exito")
-                    MenuEmpresaToAsignar()
+                    let cargaPosible= listaSolicitudes[i].cantidadContenedores-listaViajes[w].contenedoresDisponibles
+                    if(cargaPosible>=0){
+                        listaSolicitudes[i].idViaje=misBuques
+                        listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
+                        listaSolicitudes[i].estadoSolicitud="ACEPTADA"
+                        alert("Carga realizada con exito")
+                        MenuEmpresaToAsignar()
                     }
+                    else{alert("El buque no cuenta con suficiente espacio")}
                 }
             }
-
         }
     }
 }
