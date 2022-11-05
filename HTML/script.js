@@ -601,6 +601,21 @@ function MenuEmpresaToAsignar(){
 function MenuEmpresaToRollover(){
     ocultarTodo()
     document.querySelector("#RolloverDeCarga").style.display="block"
+    let miSolicitud= document.querySelector("#slcSolicitudRollover");
+    let misBuques= document.querySelector("#slcBuquesDisponibles2");
+    miSolicitud.innerHTML=`<option value="PorDefecto1">Buscar entre las solicitudes confirmadas</option>`
+    misBuques.innerHTML=`<option value="PorDefecto2">Buscar entre los viajes disponibles</option>`
+    for(let i in listaSolicitudes){
+
+        if((listaSolicitudes[i].estadoSolicitud==="ACEPTADA")&&(listaSolicitudes[i].idViaje!==null)){
+            miSolicitud.innerHTML+=`<option value="${listaSolicitudes[i].id}">${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion}</option>`
+        }
+    }
+    for(let w in listaViajes){
+        if(listaViajes[w].contenedoresDisponibles>0){
+        misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`}
+        
+    }
 }
 
 function MenuEmpresaToVerBuques(){
@@ -659,7 +674,7 @@ function AsignarViajeBuque(){
         if(listaSolicitudes[i].id===miSolicitud){
             for(let w in listaViajes){
                 if(listaViajes[w].idViaje===misBuques){
-                    let cargaPosible= listaSolicitudes[i].cantidadContenedores-listaViajes[w].contenedoresDisponibles
+                    let cargaPosible= listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
                     if(cargaPosible>=0){
                         listaSolicitudes[i].idViaje=misBuques
                         listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
@@ -675,7 +690,32 @@ function AsignarViajeBuque(){
 }
 
 function Rollover(){
+    let miSolicitud=parseInt(document.querySelector("#slcSolicitudRollover").value);
+    let misBuques=parseInt(document.querySelector("#slcBuquesDisponibles2").value);
 
+    for(let i in listaSolicitudes){
+        if(listaSolicitudes[i].id===miSolicitud){
+            for(let w in listaViajes){
+                let soliAntigua= listaSolicitudes[i].idViaje
+                if(listaViajes[w].idViaje===soliAntigua){listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles+listaSolicitudes[i].cantidadContenedores}}}}
+
+    for(let i in listaSolicitudes){
+        if(listaSolicitudes[i].id===miSolicitud){
+            for(let w in listaViajes){
+                if(listaViajes[w].idViaje===misBuques){
+                    let cargaPosible= listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
+                    if(cargaPosible>=0){
+                        listaSolicitudes[i].idViaje=misBuques
+                        listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
+                        listaSolicitudes[i].estadoSolicitud="ACEPTADA"
+                        alert("Rollover realizado con exito")
+                        MenuEmpresaToRollover()
+                    }
+                    else{alert("El buque no cuenta con suficiente espacio")}
+                }
+            }
+        }
+    }
 }
 
 function VerificarCargasPeligrosas(){
