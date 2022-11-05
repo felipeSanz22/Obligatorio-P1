@@ -97,7 +97,7 @@ class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCan
     this.puertoOrigen=unPuertoOrigen
     this.cantidadContenedores=unaCantidadContenedores
     this.idSoliImportador=unoIdSolicitud
-    this.estadoSolicitud="pendiente"
+    this.estadoSolicitud="PENDIENTE"
     this.idEmpresas=null
     this.idViaje=null
     cantidadDeSolicitudes++
@@ -111,6 +111,7 @@ class viajes {constructor (unNombreBuque,unPuertoOrigen,losContenedoresDisponibl
     this.contenedoresDisponibles=losContenedoresDisponibles
     this.estado ="disponible"
     this.date=fechaDeLlegada
+    this.idEmpViaje=null
     cantidadDeViajes++
     }
 } 
@@ -463,7 +464,7 @@ function CancelarSolicitudesDeCarga(){
     cancelarSolicitudPendiente.innerHTML= `<option value="CancelarSolicitudSelect">Seleccionar solicitud a cancelar</option>`
     for(let i in listaSolicitudes){
         if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
-            if(listaSolicitudes[i].estadoSolicitud==="pendiente"){
+            if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
                 cancelarSolicitudPendiente.innerHTML+=`<option value=${listaSolicitudes[i].id}> ${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion} </option>`}
         }
     }
@@ -476,9 +477,39 @@ function ImportadorToSolicitudesPendientes(){
 
 }
 
+function informacionEstadisticaTabla(){
+    mitablaEstadistica=
+            `<table border="1">
+            <tr>
+                <th>Próximas llegadas</th>
+                <th>Línea de carga</th>
+                <th>Participación</th>
+            </tr>`
+    for(let i in listaViajes){
+            mitablaEstadistica+= 
+            `<tr>
+            <td>${listaViajes[i].date}</td>
+            <td>${listaViajes[i].nombreBuque}</td>
+            <td>${listaViajes[i].idEmpViaje}</td>
+            </tr>`
+    }
+    document.querySelector("#msgTablaEstadistica").innerHTML=mitablaEstadistica
+}
+
 function MenuImportadorToInformacionEstadistica(){
     ocultarTodo()
     document.querySelector("#InformacionEstadistica").style.display="block"
+    let total=0
+    let cancelacion=0
+    for(let i in listaSolicitudes){
+        if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
+        total++
+        if(listaSolicitudes[i].estadoSolicitud==="CANCELADO"){cancelacion++}}
+    }
+    informacionEstadisticaTabla()
+    document.querySelector("#msgTotalDeCargas").innerHTML+=total
+    document.querySelector("#msgPorcentajeDeCancelaciones").innerHTML+=(cancelacion*100)/total
+    
 
 }
 
@@ -514,12 +545,14 @@ function AccionarCargaToMenuImportador(){
 function InformacionEstadisticaToMenuImportador(){
     ocultarTodo()
     document.querySelector("#MenuImportador").style.display="block"
+    document.querySelector("#msgPorcentajeDeCancelaciones").innerHTML="Porcentaje de cancelaciones: "
+    document.querySelector("#msgTotalDeCargas").innerHTML="Total de Cargas: "
 }
 
 function ConfirmarCancelacion(){
     ocultarTodo()
     cancelarSolicitud=document.querySelector("#slcCancelarSolicitud").value;
-    listaSolicitudes[cancelarSolicitud].estadoSolicitud="cancelado"
+    listaSolicitudes[cancelarSolicitud].estadoSolicitud="CANCELADO"
     alert("Solicitud cancelada con exito")
     ImportadorToSolicitudesPendientes()
     
@@ -548,6 +581,20 @@ function MenuEmpresaToCrearViaje(){
 function MenuEmpresaToAsignar(){
     ocultarTodo()
     document.querySelector("#AsignarBuque").style.display="block"
+    let miSolicitud= document.querySelector("#slcSolicitudesPendientes");
+    let misBuques= document.querySelector("#slcBuquesDisponibles");
+    miSolicitud.innerHTML=`<option value="PorDefecto1">Buscar entre las solicitudes pendientes</option>`
+    misBuques.innerHTML=`<option value="PorDefecto2">Buscar entre los viajes disponibles</option>`
+    for(let i in listaSolicitudes){
+
+        if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
+            miSolicitud.innerHTML+=`<option value="${listaSolicitudes[i].id}">${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion}</option>`
+        }
+    }
+    for(let w in listaViajes){
+        misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`
+        
+    }
 }
 
 function MenuEmpresaToRollover(){
@@ -604,7 +651,25 @@ function CrearViajeBuque(){
 }  
 
 function AsignarViajeBuque(){
+    let miSolicitud=parseInt(document.querySelector("#slcSolicitudesPendientes").value);
+    let misBuques=parseInt(document.querySelector("#slcBuquesDisponibles").value);
 
+    for(let i in listaSolicitudes){
+        if(listaSolicitudes[i].id===miSolicitud){
+            if(listaSolicitudes[i].cantidadContenedores-misBuques>=0){
+            listaSolicitudes[i].idViaje=misBuques
+            for(let w in listaViajes){
+                if(listaViajes[w].idViaje===misBuques){
+                    listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
+                    listaSolicitudes[i].estadoSolicitud="ACEPTADA"
+                    alert("Carga realizada con exito")
+                    MenuEmpresaToAsignar()
+                    }
+                }
+            }
+
+        }
+    }
 }
 
 function Rollover(){
