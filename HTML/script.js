@@ -85,7 +85,7 @@ class Importador{constructor(unNombre,unUsuario,unaContraseña,unaFoto){
     this.usuarioImportador=unUsuario;
     this.contraseñaimportador=unaContraseña;
     this.fotoImportador=unaFoto;
-    this.estadoImportador="habilitado"
+    this.estadoImportador="Habilitado"
     contadorImportador++
     }
 }
@@ -457,17 +457,31 @@ function crearTablaSoliPendientes(){
 }
 
 function CancelarSolicitudesDeCarga(){
-
+    
     document.querySelector("#CancelarSolicitudCarga").style.display="block"
     let cancelarSolicitudPendiente= document.querySelector("#slcCancelarSolicitud");
     cancelarSolicitudPendiente.innerHTML=""
     cancelarSolicitudPendiente.innerHTML= `<option value="CancelarSolicitudSelect">Seleccionar solicitud a cancelar</option>`
+
     for(let i in listaSolicitudes){
+        {for(let w in listaImportadores){if (listaImportadores[w].idImportadores===usuarioIngresado.idImportadores){
+            if(TresCacneladosOut(listaImportadores[w].idImportadores)===3){
+            listaImportadores[w].estadoImportador="Inhabilitado"
+            usuarioIngresado.idImportadores="Inhabilitado"}}}
         if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
             if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
                 cancelarSolicitudPendiente.innerHTML+=`<option value=${listaSolicitudes[i].id}> ${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion} </option>`}
+            }
         }
     }
+}
+function TresCacneladosOut(unID){
+    let cancelados=0
+    for(let i in listaSolicitudes){
+        if ((unID==usuarioIngresado.idImportadores)&&(listaSolicitudes[i].estadoSolicitud=="CANCELADO")){cancelados++}
+    }
+    return cancelados
+
 }
 
 function ImportadorToSolicitudesPendientes(){
@@ -489,11 +503,26 @@ function informacionEstadisticaTabla(){
             mitablaEstadistica+= 
             `<tr>
             <td>${listaViajes[i].date}</td>
-            <td>${listaViajes[i].nombreBuque}</td>
+            <td>${confirmarLineaDeCarga(listaImportadores)}</td>
             <td>${listaViajes[i].idEmpViaje}</td>
             </tr>`
     }
     document.querySelector("#msgTablaEstadistica").innerHTML=mitablaEstadistica
+}
+function confirmarLineaDeCarga(unID){
+    for(i in unID){
+        for(w in listaSolicitudes){
+        if (unID[i].idImportadores===listaSolicitudes[w].idSoliImportador){
+            for (let j in listaViajes){if(listaViajes[j].idEmpViaje===listaSolicitudes[w].idViaje){
+                    for(let q in listaEmpresas){ if(listaEmpresas[q].idEmpresa===listaViajes[i].idEmpViaje){
+                            return listaEmpresas[q].nombreEmpresa
+                            }
+                        }
+                    }   
+                }
+            }
+        }
+    } 
 }
 
 function MenuImportadorToInformacionEstadistica(){
@@ -504,11 +533,12 @@ function MenuImportadorToInformacionEstadistica(){
     for(let i in listaSolicitudes){
         if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
         total++
-        if(listaSolicitudes[i].estadoSolicitud==="CANCELADO"){cancelacion++}}
+        if(listaSolicitudes[i].estadoSolicitud==="CANCELADO"){cancelacion++}
+        }
     }
     informacionEstadisticaTabla()
     document.querySelector("#msgTotalDeCargas").innerHTML+=total
-    document.querySelector("#msgPorcentajeDeCancelaciones").innerHTML+=(cancelacion*100)/total
+    document.querySelector("#msgPorcentajeDeCancelaciones").innerHTML+=(cancelacion*100)/total+"%"
     
 
 }
@@ -519,8 +549,21 @@ function SolicitudCargaToMenuImportador(){
 }
 
 function SolicitudesPendientesToMenuImportador(){
-    ocultarTodo()
-    document.querySelector("#MenuImportador").style.display="block"
+    for(let i in listaImportadores){
+        if(listaImportadores[i].idImportadores==usuarioIngresado.idImportadores){
+         usuarioIngresado=listaImportadores[i]
+        document.querySelector("#msgEstadoImportador").innerHTML=listaImportadores[i].estadoImportador}
+        ocultarTodo()
+        document.querySelector("#MenuImportador").style.display="block"
+        for(let w in listaImportadores){if (listaImportadores[w].idImportadores===usuarioIngresado.idImportadores){
+            if(TresCacneladosOut(listaImportadores[w].idImportadores)>=2){
+                console.log(listaImportadores[w].estadoImportador)
+            listaImportadores[w].estadoImportador="Inhabilitado"
+            usuarioIngresado.idImportadores="Inhabilitado"
+            document.querySelector("#msgEstadoImportador").innerHTML=listaImportadores[w].estadoImportador}
+            }
+        }
+    }
 }
 
 function AccionarCargaToMenuImportador(){
@@ -552,9 +595,12 @@ function InformacionEstadisticaToMenuImportador(){
 function ConfirmarCancelacion(){
     ocultarTodo()
     cancelarSolicitud=document.querySelector("#slcCancelarSolicitud").value;
-    listaSolicitudes[cancelarSolicitud].estadoSolicitud="CANCELADO"
-    alert("Solicitud cancelada con exito")
-    ImportadorToSolicitudesPendientes()
+    if(usuarioIngresado.estadoImportador==="Habilitado"){
+        listaSolicitudes[cancelarSolicitud].estadoSolicitud="CANCELADO"
+        alert("Solicitud cancelada con exito")
+        ImportadorToSolicitudesPendientes()}
+    else{alert("No puede realizar está acción, usuario Inhabilitado")
+        ImportadorToSolicitudesPendientes()}
     
 }
 
