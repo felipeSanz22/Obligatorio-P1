@@ -185,6 +185,11 @@ let viaje2= new viajes("Niña","Santa Cruz",7,"Fecha")
 let viaje3= new viajes("Santa Maria","Toledo",15,"Fecha")
 let viaje4= new viajes("Perla Negra","Nueva Inglaterra",24,"Fecha")
 listaViajes.push(viaje1,viaje2,viaje3,viaje4)
+listaViajes[0].idEmpViaje=listaEmpresas[0].idEmpresa
+listaViajes[1].idEmpViaje=listaEmpresas[1].idEmpresa
+listaViajes[2].idEmpViaje=listaEmpresas[2].idEmpresa
+listaViajes[3].idEmpViaje=listaEmpresas[3].idEmpresa
+
 
 function cargarFecha(){
     fecha=document.querySelector("#txtFecha").value
@@ -202,6 +207,15 @@ if (dia<10) dia=`0${dia}`
 let mifecha=`${anio}${mes}${dia}`
 return mifecha 
 
+}
+
+function ordenarFechas(){
+    listaDeFechas.sort( function (a,b){
+        if (a. listaDeFechas > b. listaDeFechas){
+            return 1;}
+        if (a. listaDeFechas > b. listaDeFechas){
+            return -1;}
+        })
 }
 
 function validarClave(unaClave){
@@ -298,6 +312,7 @@ function IngresarComoImportador(){
 
 function VolverAlIngreso(){
     inicio()
+    soyImportador=0
 }
 
 function IngresoGeneral(){
@@ -411,6 +426,7 @@ function LogoutImportador(){
     document.querySelector("#txtContraseñaIngreso").value=""
     usuarioIngresado=""
     contadorImagenes=0
+    soyImportador=0
 }
 
 function MenuImportadorToSolicitudCarga(){
@@ -492,37 +508,62 @@ function ImportadorToSolicitudesPendientes(){
 }
 
 function informacionEstadisticaTabla(){
-    mitablaEstadistica=
-            `<table border="1">
-            <tr>
-                <th>Próximas llegadas</th>
-                <th>Línea de carga</th>
-                <th>Participación</th>
-            </tr>`
-    for(let i in listaViajes){
-            mitablaEstadistica+= 
-            `<tr>
-            <td>${listaViajes[i].date}</td>
-            <td>${confirmarLineaDeCarga(listaImportadores)}</td>
-            <td>${listaViajes[i].idEmpViaje}</td>
-            </tr>`
-    }
-    document.querySelector("#msgTablaEstadistica").innerHTML=mitablaEstadistica
+    participacion()
 }
-function confirmarLineaDeCarga(unID){
-    for(i in unID){
-        for(w in listaSolicitudes){
-        if (unID[i].idImportadores===listaSolicitudes[w].idSoliImportador){
-            for (let j in listaViajes){if(listaViajes[j].idEmpViaje===listaSolicitudes[w].idViaje){
-                    for(let q in listaEmpresas){ if(listaEmpresas[q].idEmpresa===listaViajes[i].idEmpViaje){
-                            return listaEmpresas[q].nombreEmpresa
-                            }
-                        }
-                    }   
-                }
+function participacion(){
+    let totalSol=0
+    
+    for(unaSol of listaSolicitudes){
+        if (unaSol.idSoliImportador===usuarioIngresado.idImportadores){
+            totalSol++
+        }
+    }
+    let empresa1=0
+        for(unaSol of listaSolicitudes){
+            if((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas===0)){
+                empresa1++
             }
         }
-    } 
+    let porcentaje1=(empresa1*100)/totalSol
+    
+
+    let empresa2=0
+        for(unaSol of listaSolicitudes){
+            if((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas===1)){
+                empresa2++
+            }
+        }
+    let porcentaje2=(empresa2*100)/totalSol
+    
+
+    let empresa3=0
+        for(unaSol of listaSolicitudes){
+            if((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas===2)){
+                empresa3++
+            }
+        }
+    let porcentaje3=(empresa3*100)/totalSol
+    
+
+    let empresa4=0
+        for(unaSol of listaSolicitudes){
+            if((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas===3)){
+                empresa4++
+            }
+        }
+    let porcentaje4=(empresa4*100)/totalSol
+
+    let salida=""
+    if (porcentaje1>0) {salida+=`Participacion de ${listaEmpresas[0].nombreEmpresa}: ${porcentaje1}%   `}
+    if (porcentaje2>0) {salida+=`Participacion de ${listaEmpresas[1].nombreEmpresa}: ${porcentaje2}%   `}
+    if (porcentaje3>0) {salida+=`Participacion de ${listaEmpresas[2].nombreEmpresa}: ${porcentaje3}%   `}
+    if (porcentaje4>0) {salida+=`Participacion de ${listaEmpresas[3].nombreEmpresa}: ${porcentaje4}%   `}
+
+
+    document.querySelector("#msgTablaEstadistica").innerHTML=salida
+
+
+
 }
 
 function MenuImportadorToInformacionEstadistica(){
@@ -631,6 +672,7 @@ function MenuEmpresaToAsignar(){
     let misBuques= document.querySelector("#slcBuquesDisponibles");
     miSolicitud.innerHTML=`<option value="PorDefecto1">Buscar entre las solicitudes pendientes</option>`
     misBuques.innerHTML=`<option value="PorDefecto2">Buscar entre los viajes disponibles</option>`
+
     for(let i in listaSolicitudes){
 
         if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
@@ -638,8 +680,9 @@ function MenuEmpresaToAsignar(){
         }
     }
     for(let w in listaViajes){
-        if(listaViajes[w].contenedoresDisponibles>0){
-        misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`}
+            if(usuarioIngresado.idEmpresa===listaViajes[w].idEmpViaje){
+                if(listaViajes[w].contenedoresDisponibles>0){
+                misBuques.innerHTML+=`<option value="${listaViajes[w].idViaje}">${listaViajes[w].nombreBuque}</option>`}}
         
     }
 }
