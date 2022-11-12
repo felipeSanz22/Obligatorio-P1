@@ -20,7 +20,6 @@ function ocultarTodo(){
     document.querySelector("#AsignarBuque").style.display="none"
     document.querySelector("#RolloverDeCarga").style.display="none"
     document.querySelector("#BuquesAsignados").style.display="none"
-    document.querySelector("#ManifiestoDeCarga").style.display="none"
     document.querySelector("#ListaDeCargaPeligrosa").style.display="none"
 }
 
@@ -56,8 +55,8 @@ document.querySelector("#btnAsignarToMenuEmpresa").addEventListener("click", Asi
 document.querySelector("#btnAsignarViajeBuque").addEventListener("click", AsignarViajeBuque);
 document.querySelector("#btnRolloverToMenuEmpresa").addEventListener("click", RolloverToMenuEmpresa);
 document.querySelector("#btnRollover").addEventListener("click", Rollover);
-document.querySelector("#btnVerBuquesToMenuEmpresa").addEventListener("click", ManifiesToMenuEmpresa);
-document.querySelector("#btnManifiesToMenuEmpresa").addEventListener("click", VerBuquesToMenuEmpresa);
+document.querySelector("#btnVerBuquesToMenuEmpresa").addEventListener("click", VerBuquesToMenuEmpresa);
+document.querySelector("#btnManifiesto").addEventListener("click", ManifiestoDeCarga);
 document.querySelector("#btnVerificarCargasPeligrosas").addEventListener("click", VerificarCargasPeligrosas);
 document.querySelector("#btnPeligrosaToManifiesto").addEventListener("click", PeligrosaToManifiesto);
 
@@ -710,6 +709,64 @@ function MenuEmpresaToRollover(){
 function MenuEmpresaToVerBuques(){
     ocultarTodo()
     document.querySelector("#BuquesAsignados").style.display="block"
+    let misBuques= document.querySelector("#slcVerBuques");
+    misBuques.innerHTML=`<option value="PorDefecto2">Seleccionar un Buque</option>`
+    for(let i in listaViajes){
+        misBuques.innerHTML+=`<option value="${listaViajes[i].idViaje}">${listaViajes[i].nombreBuque}</option>`
+       
+    }
+}
+
+function ManifiestoDeCarga(){
+    let miBuque=parseInt(document.querySelector("#slcVerBuques").value)
+    let miTablaBuques=`<table>
+    <thead>
+    <th>
+        Origen
+    </th>
+    <th>
+        Contenedor
+    </th>
+    <th>
+        Importador
+    </th>
+    <th>
+        Descripción
+    </th>
+    <th>
+        Tipo de Mercaderia
+    </th>
+    </thead>`
+    for(let i in listaViajes){if(miBuque===listaViajes[i].idViaje)
+        console.log(miBuque,listaViajes[i].idViaje)
+        for(let w in listaSolicitudes){if(listaSolicitudes[w].idViaje===listaViajes[i].idViaje){
+            console.log(listaSolicitudes[w].idViaje)
+            miTablaBuques+=
+            `<tbody>
+            <tr>
+            <td>
+                ${listaViajes[i].puertoOrigen}
+            </td>
+            <td>
+                ${listaSolicitudes[w].cantidadContenedores}
+            </td>
+            <td>
+                ${listaEmpresas[miBuque]}
+            </td>
+            <td>
+                ${listaSolicitudes[w].descripcion}
+            </td>
+            <td>
+                ${listaSolicitudes[w].tipoMercaderia}
+            </td>
+            </tr>
+            </tbody>`
+            document.querySelector("#msgManifiesto").innerHTML+=miTablaBuques
+            }
+        }
+        document.querySelector("#msgManifiesto").innerHTML=miTablaBuques
+    }
+    
 }
 
 function CrearViajeToMenuEmpresa(){
