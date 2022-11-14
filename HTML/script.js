@@ -20,7 +20,6 @@ function ocultarTodo(){
     document.querySelector("#AsignarBuque").style.display="none"
     document.querySelector("#RolloverDeCarga").style.display="none"
     document.querySelector("#BuquesAsignados").style.display="none"
-    document.querySelector("#ListaDeCargaPeligrosa").style.display="none"
 }
 
 
@@ -58,7 +57,6 @@ document.querySelector("#btnRollover").addEventListener("click", Rollover);
 document.querySelector("#btnVerBuquesToMenuEmpresa").addEventListener("click", VerBuquesToMenuEmpresa);
 document.querySelector("#btnManifiesto").addEventListener("click", ManifiestoDeCarga);
 document.querySelector("#btnVerificarCargasPeligrosas").addEventListener("click", VerificarCargasPeligrosas);
-document.querySelector("#btnPeligrosaToManifiesto").addEventListener("click", PeligrosaToManifiesto);
 
 let contadorImportador=0
 let soyImportador=0
@@ -154,17 +152,6 @@ let solicitud10= new solicitud("Carga Peligrosa","Baterias","Puerto HongKong",3,
 
 
 listaSolicitudes.push(solicitud1,solicitud2,solicitud3,solicitud4,solicitud5,solicitud6,solicitud7,solicitud8,solicitud9,solicitud10)
-listaSolicitudes[0].idEmpresas=listaEmpresas[0].idEmpresa
-listaSolicitudes[1].idEmpresas=listaEmpresas[1].idEmpresa
-listaSolicitudes[2].idEmpresas=listaEmpresas[2].idEmpresa
-listaSolicitudes[3].idEmpresas=listaEmpresas[3].idEmpresa
-listaSolicitudes[4].idEmpresas=listaEmpresas[0].idEmpresa
-listaSolicitudes[5].idEmpresas=listaEmpresas[1].idEmpresa
-listaSolicitudes[6].idEmpresas=listaEmpresas[2].idEmpresa
-listaSolicitudes[7].idEmpresas=listaEmpresas[3].idEmpresa
-listaSolicitudes[8].idEmpresas=listaEmpresas[0].idEmpresa
-listaSolicitudes[9].idEmpresas=listaEmpresas[1].idEmpresa
-
 
 listaSolicitudes[0].idSoliImportador=listaImportadores[0].idImportadores
 listaSolicitudes[1].idSoliImportador=listaImportadores[1].idImportadores
@@ -179,10 +166,10 @@ listaSolicitudes[9].idSoliImportador=listaImportadores[1].idImportadores
 
 
 
-let viaje1= new viajes("Pinta","Puerto Osaka",12,"Fecha")
-let viaje2= new viajes("Niña","Santa Cruz",7,"Fecha")
-let viaje3= new viajes("Santa Maria","Toledo",15,"Fecha")
-let viaje4= new viajes("Perla Negra","Nueva Inglaterra",24,"Fecha")
+let viaje1= new viajes("Pinta","Puerto Osaka",12,"20221205")
+let viaje2= new viajes("Niña","Santa Cruz",7,"20221211")
+let viaje3= new viajes("Santa Maria","Toledo",15,"20221229")
+let viaje4= new viajes("Perla Negra","Nueva Inglaterra",24,"20230105")
 listaViajes.push(viaje1,viaje2,viaje3,viaje4)
 listaViajes[0].idEmpViaje=listaEmpresas[0].idEmpresa
 listaViajes[1].idEmpViaje=listaEmpresas[1].idEmpresa
@@ -311,6 +298,8 @@ function IngresarComoImportador(){
 
 function VolverAlIngreso(){
     inicio()
+    document.querySelector("#txtNombreDeUsuario").value=""
+    document.querySelector("#txtContraseñaIngreso").value=""
     soyImportador=0
 }
 
@@ -354,6 +343,8 @@ function IngresoGeneral(){
         
 function RegistroToIngreso(){
     inicio()
+    document.querySelector("#txtNombreDeUsuario").value=""
+    document.querySelector("#txtContraseñaIngreso").value=""
 }
 
 function existeUsuario(unUsuario){
@@ -509,11 +500,12 @@ function ImportadorToSolicitudesPendientes(){
 function informacionEstadisticaTabla(){
     participacion()
 }
+
 function participacion(){
     let totalSol=0
     
     for(unaSol of listaSolicitudes){
-        if (unaSol.idSoliImportador===usuarioIngresado.idImportadores){
+        if ((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas!==null)){
             totalSol++
         }
     }
@@ -553,10 +545,10 @@ function participacion(){
     let porcentaje4=(empresa4*100)/totalSol
 
     let salida=""
-    if (porcentaje1>0) {salida+=`Participacion de ${listaEmpresas[0].nombreEmpresa}: ${porcentaje1}%   `}
-    if (porcentaje2>0) {salida+=`Participacion de ${listaEmpresas[1].nombreEmpresa}: ${porcentaje2}%   `}
-    if (porcentaje3>0) {salida+=`Participacion de ${listaEmpresas[2].nombreEmpresa}: ${porcentaje3}%   `}
-    if (porcentaje4>0) {salida+=`Participacion de ${listaEmpresas[3].nombreEmpresa}: ${porcentaje4}%   `}
+    if (porcentaje1>0) {salida+=`Participacion de ${listaEmpresas[0].nombreEmpresa}: ${porcentaje1}% <br>`}
+    if (porcentaje2>0) {salida+=`Participacion de ${listaEmpresas[1].nombreEmpresa}: ${porcentaje2}% <br>`}
+    if (porcentaje3>0) {salida+=`Participacion de ${listaEmpresas[2].nombreEmpresa}: ${porcentaje3}% <br>`}
+    if (porcentaje4>0) {salida+=`Participacion de ${listaEmpresas[3].nombreEmpresa}: ${porcentaje4}% <br>`}
 
 
     document.querySelector("#msgTablaEstadistica").innerHTML=salida
@@ -712,14 +704,15 @@ function MenuEmpresaToVerBuques(){
     let misBuques= document.querySelector("#slcVerBuques");
     misBuques.innerHTML=`<option value="PorDefecto2">Seleccionar un Buque</option>`
     for(let i in listaViajes){
-        misBuques.innerHTML+=`<option value="${listaViajes[i].idViaje}">${listaViajes[i].nombreBuque}</option>`
+        misBuques.innerHTML+=`<option value="${listaViajes[i].idEmpViaje}">${listaViajes[i].nombreBuque}</option>`
        
     }
 }
 
 function ManifiestoDeCarga(){
     let miBuque=parseInt(document.querySelector("#slcVerBuques").value)
-    let miTablaBuques=`<table>
+    let miTablaBuques=
+    `<table border=1>
     <thead>
     <th>
         Origen
@@ -737,10 +730,8 @@ function ManifiestoDeCarga(){
         Tipo de Mercaderia
     </th>
     </thead>`
-    for(let i in listaViajes){if(miBuque===listaViajes[i].idViaje)
-        console.log(miBuque,listaViajes[i].idViaje)
+    for(let i in listaViajes){if(miBuque===listaViajes[i].idEmpViaje)
         for(let w in listaSolicitudes){if(listaSolicitudes[w].idViaje===listaViajes[i].idViaje){
-            console.log(listaSolicitudes[w].idViaje)
             miTablaBuques+=
             `<tbody>
             <tr>
@@ -751,7 +742,7 @@ function ManifiestoDeCarga(){
                 ${listaSolicitudes[w].cantidadContenedores}
             </td>
             <td>
-                ${listaEmpresas[miBuque]}
+                ${listaEmpresas[miBuque].nombreEmpresa}
             </td>
             <td>
                 ${listaSolicitudes[w].descripcion}
@@ -761,12 +752,11 @@ function ManifiestoDeCarga(){
             </td>
             </tr>
             </tbody>`
-            document.querySelector("#msgManifiesto").innerHTML+=miTablaBuques
+            
             }
         }
-        document.querySelector("#msgManifiesto").innerHTML=miTablaBuques
     }
-    
+    document.querySelector("#msgManifiesto").innerHTML=miTablaBuques
 }
 
 function CrearViajeToMenuEmpresa(){
@@ -784,10 +774,6 @@ function RolloverToMenuEmpresa(){
     document.querySelector("#MenuEmpresa").style.display="block"
 }
 
-function ManifiesToMenuEmpresa(){
-    ocultarTodo()
-    document.querySelector("#MenuEmpresa").style.display="block"
-}
 
 function VerBuquesToMenuEmpresa(){
     ocultarTodo()
@@ -805,6 +791,7 @@ function CrearViajeBuque(){
                 else{
                     cargarFecha()
                     let nuevoViaje= new viajes(nombreBuqueCreado,puertoOrigenNuevo,cantMaxContenedores,fecha)
+                    nuevoViaje.idEmpViaje=usuarioIngresado.idEmpresa
                 listaViajes.push(nuevoViaje)
                 alert("Viaje cargado correctamente")
                     }
@@ -825,6 +812,7 @@ function AsignarViajeBuque(){
                         listaSolicitudes[i].idViaje=misBuques
                         listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
                         listaSolicitudes[i].estadoSolicitud="ACEPTADA"
+                        listaSolicitudes[i].idEmpresas=listaViajes[w].idEmpViaje
                         alert("Carga realizada con exito")
                         MenuEmpresaToAsignar()
                     }
@@ -865,11 +853,17 @@ function Rollover(){
 }
 
 function VerificarCargasPeligrosas(){
-
-}
-
-function PeligrosaToManifiesto(){
-
+    let miBuque=parseInt(document.querySelector("#slcVerBuques").value)
+    let listaPeligrosa=""
+    for(let i in listaViajes){if(miBuque===listaViajes[i].idEmpViaje)
+        for(let w in listaSolicitudes){if(listaSolicitudes[w].idViaje===listaViajes[i].idViaje){
+            if (listaSolicitudes[w].tipoMercaderia==="Carga Peligrosa"){
+                listaPeligrosa+= "Producto: "+ listaSolicitudes[w].descripcion +"<br>"+" Cantidad de contenedores: "+ listaSolicitudes[i].cantidadContenedores + "<br>"+"<br>"
+            }
+            }
+        }
+    }
+    document.querySelector("#msgListaPeligrosa").innerHTML=listaPeligrosa
 }
 
 
