@@ -20,6 +20,7 @@ function ocultarTodo(){
     document.querySelector("#AsignarBuque").style.display="none"
     document.querySelector("#RolloverDeCarga").style.display="none"
     document.querySelector("#BuquesAsignados").style.display="none"
+    document.querySelector("#HabilitarImportadores").style.display="none"
 }
 
 
@@ -57,6 +58,10 @@ document.querySelector("#btnRollover").addEventListener("click", Rollover);
 document.querySelector("#btnVerBuquesToMenuEmpresa").addEventListener("click", VerBuquesToMenuEmpresa);
 document.querySelector("#btnManifiesto").addEventListener("click", ManifiestoDeCarga);
 document.querySelector("#btnVerificarCargasPeligrosas").addEventListener("click", VerificarCargasPeligrosas);
+document.querySelector("#btnMenuEmpresaToHabilitarImportadores").addEventListener("click", MenuEmpresaToHabilitarImportadores);
+document.querySelector("#btnHabilitarImportadores").addEventListener("click", HabilitarImportadores);
+document.querySelector("#btnHabilitarImportadoresToMenuEmpresa").addEventListener("click", HabilitarImportadoresToMenuEmpresa);
+document.querySelector("#btnBusquedaParcial").addEventListener("click", BusquedaParcial);
 
 let contadorImportador=0
 let soyImportador=0
@@ -97,6 +102,7 @@ class solicitud {constructor (unaMercaderia,unaDescripcion,unPuertoOrigen,unaCan
     this.estadoSolicitud="PENDIENTE"
     this.idEmpresas=null
     this.idViaje=null
+    this.date=mostrarFechaHoy()
     cantidadDeSolicitudes++
     }
 }
@@ -431,8 +437,6 @@ function MenuImportadorToSolicitudCarga(){
 }
 
 function crearTablaSoliPendientes(){
-
-  
     miTabla=
     `<table border="1">
         <tr>
@@ -473,7 +477,7 @@ function CancelarSolicitudesDeCarga(){
         {for(let w in listaImportadores){if (listaImportadores[w].idImportadores===usuarioIngresado.idImportadores){
             if(TresCacneladosOut(listaImportadores[w].idImportadores)===3){
             listaImportadores[w].estadoImportador="Inhabilitado"
-            usuarioIngresado.idImportadores="Inhabilitado"}}}
+            usuarioIngresado.estadoImportador="Inhabilitado"}}}
         if(listaSolicitudes[i].idSoliImportador===usuarioIngresado.idImportadores){
             if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
                 cancelarSolicitudPendiente.innerHTML+=`<option value=${listaSolicitudes[i].id}> ${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion} </option>`}
@@ -589,9 +593,8 @@ function SolicitudesPendientesToMenuImportador(){
         document.querySelector("#MenuImportador").style.display="block"
         for(let w in listaImportadores){if (listaImportadores[w].idImportadores===usuarioIngresado.idImportadores){
             if(TresCacneladosOut(listaImportadores[w].idImportadores)>=2){
-                console.log(listaImportadores[w].estadoImportador)
             listaImportadores[w].estadoImportador="Inhabilitado"
-            usuarioIngresado.idImportadores="Inhabilitado"
+            usuarioIngresado.estadoImportador="Inhabilitado"
             document.querySelector("#msgEstadoImportador").innerHTML=listaImportadores[w].estadoImportador}
             }
         }
@@ -774,7 +777,6 @@ function RolloverToMenuEmpresa(){
     document.querySelector("#MenuEmpresa").style.display="block"
 }
 
-
 function VerBuquesToMenuEmpresa(){
     ocultarTodo()
     document.querySelector("#MenuEmpresa").style.display="block"
@@ -866,9 +868,64 @@ function VerificarCargasPeligrosas(){
     document.querySelector("#msgListaPeligrosa").innerHTML=listaPeligrosa
 }
 
+function MenuEmpresaToHabilitarImportadores(){
+    ocultarTodo()
+    document.querySelector("#HabilitarImportadores").style.display="block"
+    let miSolicitud=document.querySelector("#slcImportadores")
+    for(let i in listaImportadores){
+        if(listaImportadores[i].estadoImportador==="Inhabilitado"){
+            miSolicitud.innerHTML+=`<option value="${listaImportadores[i].idImportadores}">${listaImportadores[i].nombreImportador}</option>`
+        }
+    }
+}
 
+function HabilitarImportadores(){
+   let miImportador= parseInt(document.querySelector("#slcImportadores").value)
+    for(let i in listaSolicitudes){if (listaSolicitudes[i].idSoliImportador===miImportador){
+        listaSolicitudes[i].estadoSolicitud="IGNORADA"
+        for( let w in listaImportadores){if(listaImportadores[w].idImportadores===miImportador){
+            listaImportadores[w].estadoImportador="Habilitado"
+        }}
+        }
+    }
+   
+}
 
+function HabilitarImportadoresToMenuEmpresa(){
+    ocultarTodo()
+    document.querySelector("#slcImportadores").innerHTML=`<select id=slcImportadores"><option value="PorDefecto">Seleccionar un importador para habilitar</option></select>`
+    document.querySelector("#MenuEmpresa").style.display="block"
 
+}
 
+function BusquedaParcial(){
+    
+   let miTabla=
+    `<table border="1">
+        <tr>
+            <th>Númmero de Viaje</th>
+            <th>Tipo de Mercaderia</th>
+            <th>Cantidad de Contenedores</th>
+            <th>Puerto de Origen</th>
+            <th>ID de la Empresa</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+        </tr>`
 
-
+    let miBusqueda=document.querySelector("#txtBusquedaParcial").value
+    for(let i in listaSolicitudes){
+    if(listaSolicitudes[i].descripcion.toLowerCase().includes(miBusqueda.toLowerCase())){
+        miTabla+=
+        `<tr>
+        <td>${listaSolicitudes[i].id}</td>
+        <td>${listaSolicitudes[i].tipoMercaderia}</td>
+        <td>${listaSolicitudes[i].cantidadContenedores}</td>
+        <td>${listaSolicitudes[i].puertoOrigen}</td>
+        <td>${listaSolicitudes[i].idEmpresas}</td>
+        <td>${listaSolicitudes[i].descripcion}</td>
+        <td>${listaSolicitudes[i].estadoSolicitud}</td>
+        </tr>`
+    }}
+    miTabla+=`</table>`
+    document.querySelector("#msgSolicitudesPendientes").innerHTML=miTabla
+}

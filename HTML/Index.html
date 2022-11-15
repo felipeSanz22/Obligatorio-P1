@@ -72,7 +72,7 @@
         <input type="button" id="btnSolicitudesPendientesToMenuImportador" value="Atras"><br><br>
         Solicitudes pendientes <br><br>
 
-        <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><br><br>
+        <label for="txtBusquedaParcial">Busqueda Parcial: </label> <input type="text" id="txtBusquedaParcial"><input type="button" id="btnBusquedaParcial" value="Buscar"><br><br>
         <p id="msgSolicitudesPendientes"></p>
         <input type="button" id="btnCancelarSolicitudesDeCarga" value="Cancelar Carga">
     </div>
@@ -103,6 +103,8 @@
         <input type="button" id="btnMenuEmpresaToRollover" value="Rollovers"><br><br>
 
         <input type="button" id="btnMenuEmpresaToVerBuques" value="Ver Buques"><br><br>
+
+        <input type="button" id="btnMenuEmpresaToHabilitarImportadores" value="Habilitar Importadores"><br><br>
 
         <input type="button" id="btnLogoutEmpresa" value="Cerrar Sesión">
 
@@ -146,6 +148,13 @@
             <input type="button" id="btnVerificarCargasPeligrosas" value="Verificar Cargas Peligrosas">
             <p id="msgManifiesto"></p><br><br>
             <p id="msgListaPeligrosa"></p>
+    </div>
+
+    <div id="HabilitarImportadores">
+        <input type="button" id="btnHabilitarImportadoresToMenuEmpresa" value="Atras"><br><br>
+        HabilitarImportadores
+        <label for="slcImportadores">Importadores: </label><select id="slcImportadores"><option value="PorDefecto">Seleccionar un importador para habilitar</option></select><br><br>
+        <input type="button" id="btnHabilitarImportadores" value="Habilitar">
     </div>
     <script src="script.js"></script>
 </body>
