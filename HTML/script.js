@@ -667,7 +667,7 @@ function MenuEmpresaToAsignar(){
     for(let i in listaSolicitudes){
 
         if(listaSolicitudes[i].estadoSolicitud==="PENDIENTE"){
-            miSolicitud.innerHTML+=`<option value="${listaSolicitudes[i].id}">${listaSolicitudes[i].id} // ${listaSolicitudes[i].descripcion}</option>`
+            miSolicitud.innerHTML+=`<option value="${listaSolicitudes[i].id}">${listaSolicitudes[i].cantidadContenedores} // ${listaSolicitudes[i].descripcion}</option>`
         }
     }
     for(let w in listaViajes){
@@ -777,6 +777,8 @@ function RolloverToMenuEmpresa(){
 function VerBuquesToMenuEmpresa(){
     ocultarTodo()
     document.querySelector("#MenuEmpresa").style.display="block"
+    document.querySelector("#msgManifiesto").innerHTML=""
+    document.querySelector("#msgListaPeligrosa").innerHTML=""
 }
 
 function CrearViajeBuque(){
@@ -839,7 +841,7 @@ function Rollover(){
                     let cargaPosible= listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
                     if(cargaPosible>=0){
                         listaSolicitudes[i].idViaje=misBuques
-                        listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-listaSolicitudes[i].cantidadContenedores
+                        listaViajes[w].contenedoresDisponibles=listaViajes[w].contenedoresDisponibles-cargaPosible
                         listaSolicitudes[i].estadoSolicitud="ACEPTADA"
                         alert("Rollover realizado con exito")
                         MenuEmpresaToRollover()
@@ -857,7 +859,7 @@ function VerificarCargasPeligrosas(){
     for(let i in listaViajes){if(miBuque===listaViajes[i].idEmpViaje)
         for(let w in listaSolicitudes){if(listaSolicitudes[w].idViaje===listaViajes[i].idViaje){
             if (listaSolicitudes[w].tipoMercaderia==="Carga Peligrosa"){
-                listaPeligrosa+= "Producto: "+ listaSolicitudes[w].descripcion +"<br>"+" Cantidad de contenedores: "+ listaSolicitudes[i].cantidadContenedores + "<br>"+"<br>"
+                listaPeligrosa+= "Producto: "+ listaSolicitudes[w].descripcion +"<br>"+" Cantidad de contenedores: "+ listaSolicitudes[w].cantidadContenedores + "<br>"+"<br>"
             }
             }
         }
