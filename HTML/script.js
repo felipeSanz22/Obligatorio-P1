@@ -39,7 +39,7 @@ document.querySelector("#btnMenuImportadorToSolicitudesPendientes").addEventList
 document.querySelector("#btnCancelarSolicitudesDeCarga").addEventListener("click", CancelarSolicitudesDeCarga);
 document.querySelector("#btnMenuImportadorToInformacionEstadistica").addEventListener("click", MenuImportadorToInformacionEstadistica);
 document.querySelector("#btnSolicitudCargaToMenuImportador").addEventListener("click", SolicitudCargaToMenuImportador);
-document.querySelector("#btnAccionarCargaImportador").addEventListener("click", AccionarCargaToMenuImportador);
+document.querySelector("#btnAccionarCargaImportador").addEventListener("click", AccionarCargaImportador);
 document.querySelector("#btnSolicitudesPendientesToMenuImportador").addEventListener("click", SolicitudesPendientesToMenuImportador);
 document.querySelector("#btnInformacionEstadisticaToMenuImportador").addEventListener("click", InformacionEstadisticaToMenuImportador);
 document.querySelector("#btnConfirmarCancelacion").addEventListener("click", ConfirmarCancelacion);
@@ -429,11 +429,6 @@ function MenuImportadorToSolicitudCarga(){
     ocultarTodo()
     document.querySelector("#CrearSolicitudCarga").style.display="block"
     let seleccionarEmpresa= document.querySelector("#slcCargaIDEmpresa");
-    for(let unaEmpresa of listaEmpresas){
-         
-        seleccionarEmpresa.innerHTML+=`<option value=${unaEmpresa.idEmpresa}> ${unaEmpresa.idEmpresa} // ${unaEmpresa.nombreEmpresa} </option>`
-       
-    }
 }
 
 function crearTablaSoliPendientes(){
@@ -601,24 +596,26 @@ function SolicitudesPendientesToMenuImportador(){
     }
 }
 
-function AccionarCargaToMenuImportador(){
+function AccionarCargaImportador(){
     let mercaderia=document.querySelector("#slcCargaMercaderia").value;
     let origen=document.querySelector("#txtCargaPuerto").value;
-    let cantidad=document.querySelector("#txtCargaContenedores").value;
-    let idEmpr=document.querySelector("#slcCargaIDEmpresa").value;
-    let descrip=parseInt(document.querySelector("#txtCargaDescripcion").value);
-
-
-    let nuevaSolicitud= new solicitud(mercaderia,origen,cantidad,idEmpr,descrip,cantidadDeSolicitudes);
-    listaSolicitudes.push(nuevaSolicitud);
-    ocultarTodo()
-    document.querySelector("#MenuImportador").style.display="block"
-    document.querySelector("#txtCargaMercaderia").value=""
-    document.querySelector("#txtCargaPuerto").value=""
-    document.querySelector("#txtCargaContenedores").value=""
-    document.querySelector("#slcCargaIDEmpresa").value=""
-    document.querySelector("#txtCargaDescripcion").value=""
+    let cantidad=document.querySelector("#txtCargaContenedores").value
+    let descrip=document.querySelector("#txtCargaDescripcion").value;
+    
+    if(mercaderia==="PorDefecto"){alert("Ingrese un tipo de mercaderia")}
+    else{if(origen===""){alert("Ingrese un puerto de origen")}
+    else{if((cantidad==="")||(cantidad==="0")){alert("Ingrese una cantidad de contenedores")}
+    else{if(descrip===""){alert("Ingrese una descripción")}  
+    else{let nuevaSolicitud= new solicitud(mercaderia,descrip,origen,cantidad,usuarioIngresado.idImportadores);
+        listaSolicitudes.push(nuevaSolicitud);
+        ocultarTodo()
+        document.querySelector("#MenuImportador").style.display="block"
+        document.querySelector("#txtCargaPuerto").value=""
+        document.querySelector("#txtCargaContenedores").value=""
+        document.querySelector("#txtCargaDescripcion").value=""
+    }}}}
 }
+
 
 function InformacionEstadisticaToMenuImportador(){
     ocultarTodo()
@@ -882,10 +879,14 @@ function MenuEmpresaToHabilitarImportadores(){
 function HabilitarImportadores(){
    let miImportador= parseInt(document.querySelector("#slcImportadores").value)
     for(let i in listaSolicitudes){if (listaSolicitudes[i].idSoliImportador===miImportador){
+        if(listaSolicitudes[i].estadoSolicitud==="CANCELADO"){
         listaSolicitudes[i].estadoSolicitud="IGNORADA"
+        }
         for( let w in listaImportadores){if(listaImportadores[w].idImportadores===miImportador){
             listaImportadores[w].estadoImportador="Habilitado"
-        }}
+            HabilitarImportadoresToMenuEmpresa()
+                }
+            }
         }
     }
    
