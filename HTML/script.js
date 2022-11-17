@@ -502,6 +502,22 @@ function informacionEstadisticaTabla(){
 
 function participacion(){
     let totalSol=0
+    let miTablaProximas=
+    `<table border="1">
+    <thead>
+    <th>
+        Fecha de Llegada
+    </th>
+    <th>
+        Fecha de Salida
+    </th>
+    <th>
+        Producto
+    </th>
+    <th>
+        Empresa
+    </th>
+    </thead>`
     
     for(unaSol of listaSolicitudes){
         if ((unaSol.idSoliImportador===usuarioIngresado.idImportadores)&&(unaSol.idEmpresas!==null)){
@@ -551,7 +567,30 @@ function participacion(){
 
 
     document.querySelector("#msgTablaEstadistica").innerHTML=salida
-
+    for(let i in listaViajes){
+        for(let w in listaSolicitudes){
+            if(listaViajes[i].idViaje===listaSolicitudes[w].idViaje){
+                for(let q in listaEmpresas){if(listaEmpresas[q].idEmpresa===listaViajes[i].idEmpViaje){
+                    miTablaProximas+=
+                    `<tr><td>
+                    ${listaViajes[i].date}
+                    </td>
+                    <td>
+                    ${listaSolicitudes[w].date}
+                    </td>
+                    <td>
+                    ${listaSolicitudes[w].descripcion}
+                    </td>
+                    <td>
+                    ${listaEmpresas[q].nombreEmpresa}
+                    </td></tr>`
+                    }
+                }
+            }
+        }
+    }
+    miTablaProximas+=`</table>`
+    document.querySelector("#msgProximasLlegadas").innerHTML=miTablaProximas
 
 
 }
@@ -712,7 +751,7 @@ function MenuEmpresaToVerBuques(){
 function ManifiestoDeCarga(){
     let miBuque=parseInt(document.querySelector("#slcVerBuques").value)
     let miTablaBuques=
-    `<table border=1>
+    `<table border="1">
     <thead>
     <th>
         Origen
@@ -749,13 +788,13 @@ function ManifiestoDeCarga(){
             </td>
             <td>
                 ${listaSolicitudes[w].tipoMercaderia}
-            </td>
-            </tr>
-            </tbody>`
+            </td>`
             
             }
         }
     }
+    miTablaBuques+=`</tr>
+    </tbody>`
     document.querySelector("#msgManifiesto").innerHTML=miTablaBuques
 }
 
